@@ -1,0 +1,321 @@
+/* =========================================
+   CREATE BRANCH - PREMIUM BANKING UI
+========================================= */
+
+.create-branch-page {
+  min-height: 100vh;
+  padding: 50px 25px;
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(59, 130, 246, 0.10),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(99, 102, 241, 0.10),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #f8fafc,
+      #eef2ff
+    );
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.create-branch-card {
+  width: min(850px, 100%);
+  margin: 0 auto;
+  padding: 38px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  box-shadow:
+    0 25px 60px rgba(15, 23, 42, 0.10),
+    0 5px 20px rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(18px);
+  animation: cardEnter 0.45s ease;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.create-branch-header {
+  margin-bottom: 30px;
+}
+
+.create-branch-icon {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1e293b,
+      #334155
+    );
+
+  color: #ffffff;
+  font-size: 25px;
+
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.20);
+}
+
+.create-branch-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.create-branch-header p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.branch-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.form-group label {
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+/* =========================================
+   INPUT / SELECT
+========================================= */
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 15px;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: #0f172a;
+
+  font-size: 14px;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+  border-color: #b8c4d3;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6366f1;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.10);
+
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.branch-actions {
+  grid-column: 1 / -1;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 10px;
+  padding-top: 25px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.create-branch-button,
+.back-button {
+  border: none;
+  border-radius: 12px;
+
+  padding: 13px 22px;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.create-branch-button {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #334155
+    );
+
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.18);
+}
+
+.create-branch-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 28px rgba(15, 23, 42, 0.25);
+}
+
+.create-branch-button:active {
+  transform: translateY(0);
+}
+
+.back-button {
+  color: #334155;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.back-button:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+.branch-success,
+.branch-error {
+  margin-top: 20px;
+  padding: 13px 16px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.branch-success {
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.branch-error {
+  color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .create-branch-page {
+    padding: 25px 15px;
+  }
+
+  .create-branch-card {
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+
+  .branch-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: auto;
+  }
+
+  .branch-actions {
+    grid-column: auto;
+    flex-direction: column;
+  }
+
+  .create-branch-button,
+  .back-button {
+    width: 100%;
+  }
+
+  .create-branch-header h2 {
+    font-size: 24px;
+  }
+}

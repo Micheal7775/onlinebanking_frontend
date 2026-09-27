@@ -1,0 +1,865 @@
+.withdraw-page {
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(234, 88, 12, 0.08),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(220, 38, 38, 0.06),
+      transparent 30%
+    ),
+    #f4f7fb;
+}
+
+
+/* CARD */
+
+.withdraw-card {
+  width: 620px;
+
+  padding: 38px 42px;
+
+  background: white;
+
+  border: 1px solid #e5eaf1;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 20px 60px rgba(15, 23, 42, 0.10);
+
+  animation: pageEnter 0.5s ease;
+}
+
+
+/* HEADER */
+
+.withdraw-header {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 28px;
+}
+
+.withdraw-back {
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #475569;
+
+  font-size: 19px;
+
+  cursor: pointer;
+}
+
+.withdraw-back:hover {
+  background: #f1f5f9;
+}
+
+.withdraw-header h1 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 27px;
+}
+
+.withdraw-header p {
+  margin-top: 5px;
+
+  color: #8993a4;
+
+  font-size: 12px;
+}
+
+
+/* ACCOUNT */
+
+.account-preview {
+  display: flex;
+  align-items: center;
+
+  padding: 17px;
+
+  margin-bottom: 28px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 14px;
+
+  background: #f8fafc;
+}
+
+.account-icon {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #fff7ed;
+
+  color: #ea580c;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 13px;
+}
+
+.account-info span {
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+.account-info strong {
+  margin-top: 3px;
+
+  color: #334155;
+
+  font-size: 13px;
+}
+
+.account-info small {
+  margin-top: 2px;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+.account-status {
+  margin-left: auto;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  background: #dcfce7;
+
+  color: #15803d;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+
+/* AMOUNT */
+
+.amount-section label,
+.description-section label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #374151;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+.amount-input {
+  display: flex;
+  align-items: center;
+
+  height: 65px;
+
+  padding: 0 18px;
+
+  border: 1px solid #dce3ec;
+
+  border-radius: 13px;
+
+  background: #f8fafc;
+
+  transition: 0.2s ease;
+}
+
+.amount-input:focus-within {
+  background: white;
+
+  border-color: #f97316;
+
+  box-shadow:
+    0 0 0 4px rgba(249, 115, 22, 0.08);
+}
+
+.amount-input span {
+  color: #64748b;
+
+  font-size: 23px;
+
+  font-weight: 700;
+}
+
+.amount-input input {
+  width: 100%;
+
+  margin-left: 10px;
+
+  border: 0;
+
+  outline: 0;
+
+  background: transparent;
+
+  color: #111827;
+
+  font-size: 25px;
+
+  font-weight: 700;
+}
+
+.amount-input input::placeholder {
+  color: #cbd5e1;
+}
+
+
+/* QUICK AMOUNT */
+
+.quick-section {
+  margin-top: 18px;
+}
+
+.quick-section > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #64748b;
+
+  font-size: 10px;
+
+  font-weight: 650;
+}
+
+.quick-buttons {
+  display: flex;
+
+  gap: 9px;
+}
+
+.quick-buttons button {
+  flex: 1;
+
+  height: 37px;
+
+  border: 1px solid #dce3ec;
+
+  border-radius: 9px;
+
+  background: white;
+
+  color: #475569;
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.quick-buttons button:hover {
+  border-color: #fdba74;
+
+  background: #fff7ed;
+
+  color: #ea580c;
+
+  transform: translateY(-1px);
+}
+
+
+/* DESCRIPTION */
+
+.description-section {
+  margin-top: 22px;
+}
+
+.description-section label {
+  display: flex;
+
+  justify-content: space-between;
+}
+
+.description-section label span {
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  font-weight: 400;
+}
+
+.description-section input {
+  width: 100%;
+
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #dfe5ed;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #f8fafc;
+
+  font-size: 12px;
+}
+
+.description-section input:focus {
+  background: white;
+
+  border-color: #f97316;
+
+  box-shadow:
+    0 0 0 4px rgba(249, 115, 22, 0.07);
+}
+
+
+/* CONTINUE */
+
+.continue-button {
+  width: 100%;
+
+  height: 50px;
+
+  margin-top: 23px;
+
+  border: 0;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ea580c,
+      #dc2626
+    );
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 24px rgba(234, 88, 12, 0.18);
+
+  transition: 0.2s ease;
+}
+
+.continue-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 15px 30px rgba(234, 88, 12, 0.24);
+}
+
+.continue-button span {
+  margin-left: 8px;
+
+  font-size: 17px;
+}
+
+
+/* SECURITY */
+
+.secure-note {
+  margin-top: 20px;
+
+  text-align: center;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+
+/* ERROR */
+
+.withdraw-error {
+  margin-top: 15px;
+
+  padding: 11px;
+
+  border-radius: 9px;
+
+  background: #fff1f2;
+
+  color: #be123c;
+
+  font-size: 11px;
+}
+
+
+/* CONFIRM */
+
+.confirm-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 100;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(15, 23, 42, 0.45);
+
+  backdrop-filter: blur(5px);
+
+  animation: overlayAppear 0.25s ease;
+}
+
+.confirm-card {
+  width: 430px;
+  max-width: 100%;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  background: white;
+
+  box-shadow:
+    0 25px 70px rgba(15, 23, 42, 0.25);
+
+  animation: modalAppear 0.3s ease;
+}
+
+.confirm-icon {
+  width: 48px;
+  height: 48px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #fff7ed;
+
+  color: #ea580c;
+
+  font-size: 20px;
+
+  font-weight: 800;
+}
+
+.confirm-card h2 {
+  margin: 0;
+
+  color: #111827;
+
+  text-align: center;
+
+  font-size: 20px;
+}
+
+.confirm-card > p {
+  margin-top: 5px;
+
+  color: #94a3b8;
+
+  text-align: center;
+
+  font-size: 11px;
+}
+
+
+/* DETAILS */
+
+.confirm-details {
+  margin-top: 22px;
+
+  padding: 5px 0;
+
+  border-top: 1px solid #eef2f7;
+}
+
+.confirm-details div {
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 13px 0;
+
+  border-bottom: 1px solid #eef2f7;
+}
+
+.confirm-details span {
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+.confirm-details strong {
+  color: #172033;
+
+  font-size: 12px;
+}
+
+
+/* ACTIONS */
+
+.confirm-actions {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+.cancel-button,
+.confirm-button {
+  flex: 1;
+
+  height: 45px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.cancel-button {
+  border: 1px solid #dce3ec;
+
+  background: white;
+
+  color: #475569;
+}
+
+.confirm-button {
+  border: 0;
+
+  background: #ea580c;
+
+  color: white;
+}
+
+.confirm-button:hover {
+  background: #dc2626;
+}
+
+
+/* SUCCESS */
+
+.withdraw-success-card {
+  width: 500px;
+  max-width: 100%;
+
+  padding: 45px;
+
+  background: white;
+
+  border-radius: 24px;
+
+  text-align: center;
+
+  box-shadow:
+    0 25px 70px rgba(15, 23, 42, 0.12);
+
+  animation: successAppear 0.5s ease;
+}
+
+.success-check {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #dcfce7;
+
+  color: #16a34a;
+
+  font-size: 32px;
+
+  font-weight: 800;
+
+  animation: successPulse 1.5s infinite;
+}
+
+.withdraw-success-card h1 {
+  color: #15803d;
+
+  font-size: 23px;
+}
+
+.withdraw-success-card > p {
+  margin-top: 7px;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+.success-amount {
+  margin-top: 22px;
+
+  color: #111827;
+
+  font-size: 34px;
+
+  font-weight: 750;
+}
+
+.reference-box {
+  margin-top: 22px;
+
+  padding: 15px;
+
+  border: 1px dashed #fdba74;
+
+  border-radius: 11px;
+
+  background: #fffaf5;
+}
+
+.reference-box span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #64748b;
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+}
+
+.reference-box strong {
+  color: #ea580c;
+
+  font-size: 13px;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* HOME */
+
+.home-button {
+  width: 100%;
+
+  height: 46px;
+
+  margin-top: 20px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: #172033;
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.home-button:hover {
+  background: #ea580c;
+}
+
+
+/* LOADER */
+
+.withdraw-loader {
+  display: inline-block;
+
+  width: 14px;
+  height: 14px;
+
+  margin-right: 7px;
+
+  border: 2px solid rgba(255,255,255,0.35);
+
+  border-top-color: white;
+
+  border-radius: 50%;
+
+  animation: spin 0.7s linear infinite;
+
+  vertical-align: -2px;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes pageEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(18px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes overlayAppear {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+@keyframes modalAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(15px)
+      scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes successAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(15px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes successPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.07);
+  }
+
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .withdraw-page {
+    padding: 20px 14px;
+  }
+
+  .withdraw-card {
+    padding: 25px 20px;
+  }
+
+  .quick-buttons {
+    flex-wrap: wrap;
+  }
+
+  .quick-buttons button {
+    min-width: 45%;
+  }
+
+  .confirm-card {
+    padding: 24px 20px;
+  }
+
+  .withdraw-success-card {
+    padding: 30px 22px;
+  }
+
+}

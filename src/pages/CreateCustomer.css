@@ -1,0 +1,500 @@
+/* =========================================
+   CREATE CUSTOMER - PREMIUM BANKING UI
+========================================= */
+
+.create-customer-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 45px 20px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 8% 5%,
+      rgba(99, 102, 241, 0.10),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 95%,
+      rgba(59, 130, 246, 0.09),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #f8fafc 0%,
+      #eef2f7 100%
+    );
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #0f172a;
+}
+
+
+/* =========================================
+   BACKGROUND
+========================================= */
+
+.customer-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.customer-circle-one {
+  width: 300px;
+  height: 300px;
+
+  top: -150px;
+  right: 5%;
+
+  background: rgba(99, 102, 241, 0.06);
+
+  filter: blur(3px);
+}
+
+.customer-circle-two {
+  width: 250px;
+  height: 250px;
+
+  bottom: -120px;
+  left: 4%;
+
+  background: rgba(59, 130, 246, 0.05);
+
+  filter: blur(3px);
+}
+
+
+/* =========================================
+   MAIN CARD
+========================================= */
+
+.create-customer-card {
+  position: relative;
+  z-index: 2;
+
+  width: min(950px, 100%);
+  margin: 0 auto;
+
+  padding: 38px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(226, 232, 240, 0.9);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 25px 60px rgba(15, 23, 42, 0.09),
+    0 5px 20px rgba(15, 23, 42, 0.04);
+
+  backdrop-filter: blur(18px);
+
+  animation: customerCardEnter 0.45s ease;
+}
+
+@keyframes customerCardEnter {
+
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.customer-form-header {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+
+  padding-bottom: 28px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.customer-form-icon {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #334155
+    );
+
+  color: white;
+
+  font-size: 25px;
+
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.18);
+}
+
+.form-label {
+  color: #6366f1;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+.customer-form-header h2 {
+  margin: 4px 0 5px;
+
+  font-size: 28px;
+
+  letter-spacing: -0.6px;
+}
+
+.customer-form-header p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.customer-form {
+  padding-top: 30px;
+}
+
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.form-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 10px 0 20px;
+}
+
+.form-section-title > span {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.form-section-title h3 {
+  margin: 0;
+
+  font-size: 16px;
+}
+
+.form-section-title p {
+  margin: 3px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.customer-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-bottom: 30px;
+}
+
+.customer-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-field.full-width {
+  grid-column: 1 / -1;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.customer-field label {
+  margin-bottom: 7px;
+
+  color: #334155;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.customer-field input,
+.customer-field select {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #dbe2ea;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  color: #0f172a;
+
+  font-size: 13px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.customer-field input::placeholder {
+  color: #94a3b8;
+}
+
+.customer-field input:hover,
+.customer-field select:hover {
+  border-color: #b8c4d3;
+}
+
+.customer-field input:focus,
+.customer-field select:focus {
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.09);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+.customer-success,
+.customer-error {
+  padding: 13px 15px;
+
+  margin-top: 5px;
+  margin-bottom: 20px;
+
+  border-radius: 11px;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.customer-success {
+  color: #166534;
+
+  background: #f0fdf4;
+
+  border: 1px solid #bbf7d0;
+}
+
+.customer-error {
+  color: #991b1b;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.customer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding-top: 24px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.customer-back-button,
+.customer-submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 12px 20px;
+
+  border-radius: 11px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.customer-back-button {
+  border: 1px solid #e2e8f0;
+
+  background: #f8fafc;
+
+  color: #475569;
+}
+
+.customer-back-button:hover {
+  background: #f1f5f9;
+
+  transform: translateY(-1px);
+}
+
+.customer-submit-button {
+  border: none;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #334155
+    );
+
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.18);
+}
+
+.customer-submit-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 13px 28px rgba(15, 23, 42, 0.23);
+}
+
+.customer-submit-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   SECURITY FOOTER
+========================================= */
+
+.customer-security-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-top: 25px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  text-align: center;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .create-customer-page {
+    padding: 25px 14px;
+  }
+
+  .create-customer-card {
+    padding: 25px 20px;
+
+    border-radius: 18px;
+  }
+
+  .customer-form-header {
+    align-items: flex-start;
+  }
+
+  .customer-form-header h2 {
+    font-size: 24px;
+  }
+
+  .customer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-field.full-width {
+    grid-column: auto;
+  }
+
+  .customer-actions {
+    flex-direction: column;
+  }
+
+  .customer-back-button,
+  .customer-submit-button {
+    width: 100%;
+  }
+
+}

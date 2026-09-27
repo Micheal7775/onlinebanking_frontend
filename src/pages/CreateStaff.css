@@ -1,0 +1,475 @@
+/* ================================
+   CREATE STAFF PAGE
+================================ */
+
+.create-staff-page {
+  min-height: 100vh;
+  padding: 50px 20px;
+  background:
+    radial-gradient(circle at top left, #eef2ff 0%, transparent 35%),
+    linear-gradient(135deg, #f8fafc, #eef2f7);
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* ================================
+   BACKGROUND CIRCLES
+================================ */
+
+.staff-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.staff-circle-one {
+  width: 420px;
+  height: 420px;
+  background: #dbeafe;
+  top: -180px;
+  right: -150px;
+}
+
+.staff-circle-two {
+  width: 300px;
+  height: 300px;
+  background: #e0e7ff;
+  bottom: -130px;
+  left: -100px;
+}
+
+
+/* ================================
+   MAIN CARD
+================================ */
+
+.create-staff-card {
+  width: 100%;
+  max-width: 900px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(226, 232, 240, 0.9);
+
+  border-radius: 24px;
+
+  padding: 38px;
+
+  box-shadow:
+    0 25px 60px rgba(15, 23, 42, 0.10),
+    0 5px 15px rgba(15, 23, 42, 0.04);
+
+  position: relative;
+  z-index: 2;
+
+  backdrop-filter: blur(12px);
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.staff-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.staff-icon {
+  width: 62px;
+  height: 62px;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    #4f46e5,
+    #6366f1
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 27px;
+
+  box-shadow:
+    0 10px 25px rgba(79, 70, 229, 0.25);
+}
+
+.staff-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+
+  color: #6366f1;
+}
+
+.staff-header h1 {
+  margin: 4px 0 5px;
+
+  font-size: 30px;
+  font-weight: 750;
+
+  color: #111827;
+}
+
+.staff-header p {
+  margin: 0;
+
+  font-size: 14px;
+  color: #64748b;
+}
+
+
+/* ================================
+   DIVIDER
+================================ */
+
+.staff-divider {
+  height: 1px;
+
+  background: #e5e7eb;
+
+  margin: 30px 0;
+}
+
+
+/* ================================
+   FORM
+================================ */
+
+.staff-form {
+  width: 100%;
+}
+
+.form-section-title {
+  margin: 25px 0 17px;
+
+  font-size: 14px;
+  font-weight: 750;
+
+  color: #334155;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-section-title::before {
+  content: "";
+
+  width: 4px;
+  height: 18px;
+
+  border-radius: 10px;
+
+  background: #4f46e5;
+}
+
+
+/* ================================
+   GRID
+================================ */
+
+.staff-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+
+/* ================================
+   FIELD
+================================ */
+
+.staff-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.staff-field label {
+  font-size: 13px;
+
+  font-weight: 650;
+
+  color: #374151;
+}
+
+.staff-field input,
+.staff-field select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #dbe2ea;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  color: #1e293b;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition: all 0.2s ease;
+}
+
+.staff-field input::placeholder {
+  color: #9ca3af;
+}
+
+.staff-field input:hover,
+.staff-field select:hover {
+  border-color: #a5b4fc;
+}
+
+.staff-field input:focus,
+.staff-field select:focus {
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.10);
+}
+
+
+/* ================================
+   SUCCESS / ERROR
+================================ */
+
+.staff-success {
+  margin-top: 25px;
+
+  padding: 13px 16px;
+
+  border-radius: 11px;
+
+  background: #ecfdf5;
+
+  border: 1px solid #a7f3d0;
+
+  color: #047857;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.staff-error {
+  margin-top: 25px;
+
+  padding: 13px 16px;
+
+  border-radius: 11px;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+
+  color: #b91c1c;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* ================================
+   ACTIONS
+================================ */
+
+.staff-actions {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 32px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+
+/* Back button */
+
+.staff-back-button {
+  padding: 12px 20px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #475569;
+
+  font-size: 14px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.staff-back-button:hover {
+  background: #f8fafc;
+
+  border-color: #94a3b8;
+
+  transform: translateY(-1px);
+}
+
+
+/* Submit button */
+
+.staff-submit-button {
+  min-width: 165px;
+
+  padding: 13px 22px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: linear-gradient(
+    135deg,
+    #4338ca,
+    #6366f1
+  );
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 12px;
+
+  box-shadow:
+    0 10px 20px rgba(79, 70, 229, 0.22);
+
+  transition: all 0.2s ease;
+}
+
+.staff-submit-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 25px rgba(79, 70, 229, 0.28);
+}
+
+.staff-submit-button:active {
+  transform: translateY(0);
+}
+
+
+/* ================================
+   SECURITY FOOTER
+================================ */
+
+.staff-security-footer {
+  margin-top: 30px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #edf0f4;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  font-weight: 500;
+}
+
+.staff-security-footer span {
+  color: #cbd5e1;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 700px) {
+
+  .create-staff-page {
+    padding: 25px 15px;
+  }
+
+  .create-staff-card {
+    padding: 25px 20px;
+
+    border-radius: 18px;
+  }
+
+  .staff-header {
+    align-items: flex-start;
+  }
+
+  .staff-icon {
+    width: 52px;
+    height: 52px;
+
+    font-size: 23px;
+  }
+
+  .staff-header h1 {
+    font-size: 24px;
+  }
+
+  .staff-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-actions {
+    flex-direction: column-reverse;
+
+    gap: 12px;
+  }
+
+  .staff-back-button,
+  .staff-submit-button {
+    width: 100%;
+  }
+
+  .staff-security-footer {
+    flex-wrap: wrap;
+
+    text-align: center;
+  }
+}
