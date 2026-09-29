@@ -1,61 +1,90 @@
 import { useNavigate } from "react-router-dom";
+
 import "./StaffDashboard.css";
 
 function StaffDashboard() {
+
   const navigate = useNavigate();
 
+  // =====================================================
+  // STAFF NAME
+  // =====================================================
+
+
+
+  // =====================================================
+  // LOGOUT
+  // =====================================================
+
   const handleLogout = () => {
+
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("role");
     localStorage.removeItem("customerAccount");
+    
 
-    window.location.replace("/login");
+    navigate("/login");
   };
 
+
   return (
+
     <div className="staff-dashboard">
 
-      {/* Background */}
-      <div className="staff-dashboard-circle circle-one"></div>
-      <div className="staff-dashboard-circle circle-two"></div>
 
-      {/* Header */}
-      <header className="staff-dashboard-header">
+      {/* =================================================
+          HEADER
+      ================================================= */}
 
-        <div className="staff-brand">
+      <header className="staff-header">
 
-          <div className="staff-brand-logo">
-            B
+        <div className="staff-header-left">
+
+          <div className="staff-logo">
+            🏦
           </div>
 
           <div>
-            <h2>Online Banking</h2>
-            <span>Staff Portal</span>
+
+            <h1>
+              Canada Banking
+            </h1>
+
+            <p>
+              Staff Portal
+            </p>
+
           </div>
 
         </div>
+
 
         <div className="staff-header-right">
 
           <div className="staff-profile">
 
-            <div className="staff-avatar">
-              S
+            <div className="staff-profile-icon">
+              👤
             </div>
 
             <div>
-              <strong>Account Opening Staff</strong>
-              <span>Staff Access</span>
+
+            
+
+              <span>
+                Account Opening Staff
+              </span>
+
             </div>
 
           </div>
 
+
           <button
-            className="staff-logout"
+            className="staff-logout-btn"
             onClick={handleLogout}
           >
-            <span>↪</span>
             Logout
           </button>
 
@@ -64,101 +93,85 @@ function StaffDashboard() {
       </header>
 
 
-      {/* Main */}
-      <main className="staff-dashboard-main">
+      {/* =================================================
+          MAIN CONTENT
+      ================================================= */}
 
-        {/* Welcome */}
+      <main className="staff-main">
+
+
+        {/* =================================================
+            WELCOME
+        ================================================= */}
+
         <section className="staff-welcome">
 
           <div>
-            <span className="staff-dashboard-label">
-              STAFF OPERATIONS
+
+            <span className="staff-welcome-label">
+              STAFF PORTAL
             </span>
 
-            <h1>Staff Dashboard</h1>
+            <h2>
+              Welcome back
+            </h2>
 
             <p>
-              Manage customer registration and banking operations
-              from your secure workspace.
-            </p>
-          </div>
-
-          <div className="staff-secure-badge">
-            <span></span>
-            Secure Access
-          </div>
-
-        </section>
-
-
-        {/* Stats */}
-        <section className="staff-stats">
-
-          <div className="staff-stat-card">
-
-            <div className="staff-stat-icon">
-              👤
-            </div>
-
-            <div>
-              <span>Customer Management</span>
-              <strong>Active</strong>
-            </div>
-
-          </div>
-
-
-          <div className="staff-stat-card">
-
-            <div className="staff-stat-icon">
-              💰
-            </div>
-
-            <div>
-              <span>Deposit Operations</span>
-              <strong>Available</strong>
-            </div>
-
-          </div>
-
-
-          <div className="staff-stat-card">
-
-            <div className="staff-stat-icon">
-              🔐
-            </div>
-
-            <div>
-              <span>Security</span>
-              <strong>Protected</strong>
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* Operations */}
-        <section className="staff-operations">
-
-          <div className="staff-section-heading">
-
-            <div>
-              <span>STAFF SERVICES</span>
-
-              <h2>Available Operations</h2>
-            </div>
-
-            <p>
-              Select an operation to continue
+              Manage customer onboarding and banking
+              operations from one place.
             </p>
 
           </div>
 
 
-          <div className="staff-operation-grid">
+          <div className="staff-welcome-icon">
+            🏦
+          </div>
 
-            {/* Create Customer */}
+        </section>
+
+
+        {/* =================================================
+            STATISTICS
+        ================================================= */}
+
+      
+
+
+        {/* =================================================
+            OPERATIONS
+        ================================================= */}
+
+        <section className="staff-operations-section">
+
+          <div className="staff-section-title">
+
+            <div>
+
+              <span>
+              mange your customers
+              </span>
+
+              <h2>
+                Banking Operations
+              </h2>
+
+              <p>
+                Select an operation to continue.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="staff-operations">
+
+
+            {/* =================================================
+                CREATE CUSTOMER
+            ================================================= */}
+
             <button
               className="staff-operation-card"
               onClick={() =>
@@ -166,21 +179,24 @@ function StaffDashboard() {
               }
             >
 
-              <div className="staff-operation-icon customer-icon">
+              <div className="staff-operation-icon">
                 👤
               </div>
 
+
               <div className="staff-operation-content">
 
-                <h3>Create Customer</h3>
+                <h3>
+                  Create Customer
+                </h3>
 
                 <p>
-                  Register a new customer and capture
-                  their personal and KYC information.
+                  Register a new customer and create
+                  their banking profile.
                 </p>
 
                 <span>
-                  Open Module →
+                  Create Customer →
                 </span>
 
               </div>
@@ -188,7 +204,46 @@ function StaffDashboard() {
             </button>
 
 
-            {/* Deposit */}
+            {/* =================================================
+                MANAGE CUSTOMERS
+            ================================================= */}
+
+            <button
+              className="staff-operation-card"
+              onClick={() =>
+                navigate("/staff/customers")
+              }
+            >
+
+              <div className="staff-operation-icon customer-icon">
+                👥
+              </div>
+
+
+              <div className="staff-operation-content">
+
+                <h3>
+                  Manage Customers
+                </h3>
+
+                <p>
+                  View customer details, edit information
+                  and manage registered customers.
+                </p>
+
+                <span>
+                  View Customers →
+                </span>
+
+              </div>
+
+            </button>
+
+
+            {/* =================================================
+                DEPOSIT MONEY
+            ================================================= */}
+
             <button
               className="staff-operation-card"
               onClick={() =>
@@ -196,55 +251,114 @@ function StaffDashboard() {
               }
             >
 
-              <div className="staff-operation-icon deposit-icon">
+              <div className="staff-operation-icon">
                 💰
               </div>
 
+
               <div className="staff-operation-content">
 
-                <h3>Deposit Money</h3>
+                <h3>
+                  Deposit Money
+                </h3>
 
                 <p>
-                  Process customer deposits and record
-                  banking transactions securely.
+                  Deposit money into an existing
+                  customer account.
                 </p>
 
                 <span>
-                  Open Module →
+                  Deposit Money →
                 </span>
 
               </div>
 
             </button>
 
+
           </div>
 
         </section>
 
 
-        {/* Footer */}
-        <footer className="staff-dashboard-footer">
+        {/* =================================================
+            QUICK INFORMATION
+        ================================================= */}
 
-          <span>🔒</span>
+        <section className="staff-info-section">
 
-          <span>
-            Secure Banking Staff Portal
-          </span>
 
-          <span className="staff-footer-dot">
-            •
-          </span>
+          <div className="staff-info-card">
 
-          <span>
-            Authorized Access Only
-          </span>
+            <div className="staff-info-icon">
+              🛡️
+            </div>
 
-        </footer>
+            <div>
+
+              <h3>
+                Secure Staff Access
+              </h3>
+
+              <p>
+                Customer operations are protected by
+                role-based authorization.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="staff-info-card">
+
+            <div className="staff-info-icon">
+              📋
+            </div>
+
+            <div>
+
+              <h3>
+                Customer Management
+              </h3>
+
+              <p>
+                Use Manage Customers to view, edit
+                and delete registered customers.
+              </p>
+
+            </div>
+
+          </div>
+
+
+        </section>
+
 
       </main>
 
+
+      {/* =================================================
+          FOOTER
+      ================================================= */}
+
+      <footer className="staff-footer">
+
+        <p>
+          Canada Banking System
+        </p>
+
+        <span>
+          Staff Portal • Secure Banking Operations
+        </span>
+
+      </footer>
+
+
     </div>
+
   );
 }
+
 
 export default StaffDashboard;

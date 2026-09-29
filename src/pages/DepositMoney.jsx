@@ -1,23 +1,86 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { depositMoney } from "../services/staffAccountService";
+
+import {
+  getMyAccount,
+  depositMoney
+} from "../services/staffAccountService";
+
 import "./DepositPage.css";
 
 function DepositPage() {
 
   const navigate = useNavigate();
 
-  const [accountNumber] = useState("ACC64CDF451BA7");
+  // =========================
+  // ACCOUNT
+  // =========================
+
+  const [account, setAccount] = useState(null);
+  const [accountLoading, setAccountLoading] = useState(true);
+
+  // =========================
+  // FORM
+  // =========================
+
   const [amount, setAmount] = useState("");
+  const [successAmount, setSuccessAmount] = useState("");
   const [description, setDescription] = useState("");
 
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [message, setMessage] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
-  const [error, setError] = useState("");
 
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+
+  // =========================
+  // LOAD CUSTOMER ACCOUNT
+  // =========================
+
+  useEffect(() => {
+
+    const loadAccount = async () => {
+
+      try {
+
+        setAccountLoading(true);
+        setError("");
+
+        const data = await getMyAccount();
+
+        if (!data || !data.accountNumber) {
+          throw new Error("Customer account not found");
+        }
+
+        console.log("CUSTOMER ACCOUNT:", data);
+
+        setAccount(data);
+
+      } catch (err) {
+
+        console.error(
+          "ACCOUNT LOAD ERROR:",
+          err
+        );
+
+        setError(
+          err.message ||
+          "Unable to load your account"
+        );
+
+      } finally {
+
+        setAccountLoading(false);
+
+      }
+    };
+
+    loadAccount();
+
+  }, []);
 
 
   // =========================
@@ -31,8 +94,21 @@ function DepositPage() {
     setError("");
     setMessage("");
 
+    if (!account?.accountNumber) {
+
+      setError(
+        "Account details are not available"
+      );
+
+      return;
+    }
+
     if (!amount || Number(amount) <= 0) {
-      setError("Please enter a valid deposit amount");
+
+      setError(
+        "Please enter a valid deposit amount"
+      );
+
       return;
     }
 
@@ -46,18 +122,36 @@ function DepositPage() {
 
   const handleConfirmDeposit = async () => {
 
+    if (!account?.accountNumber) {
+
+      setError(
+        "Account number not available"
+      );
+
+      return;
+    }
+
     setLoading(true);
     setError("");
 
     try {
 
+      console.log(
+        "DEPOSIT ACCOUNT:",
+        account.accountNumber
+      );
+
       const data = await depositMoney(
-        accountNumber,
+        account.accountNumber,
         amount,
         description
       );
 
-      setReferenceNumber(data.referenceNumber);
+      setSuccessAmount(amount);
+
+      setReferenceNumber(
+        data.referenceNumber
+      );
 
       setMessage("Deposit Successful");
 
@@ -66,12 +160,16 @@ function DepositPage() {
       setAmount("");
       setDescription("");
 
-    } catch (error) {
+    } catch (err) {
 
-      console.error("Deposit Error:", error);
+      console.error(
+        "Deposit Error:",
+        err
+      );
 
       setError(
-        error.message || "Deposit failed"
+        err.message ||
+        "Deposit failed"
       );
 
       setShowConfirm(false);
@@ -109,9 +207,9 @@ function DepositPage() {
           </p>
 
           <div className="success-amount">
-            ₹{Number(
-              referenceNumber ? amount : 0
-            ).toLocaleString("en-IN")}
+            ₹
+            {Number(successAmount)
+              .toLocaleString("en-IN")}
           </div>
 
           <div className="reference-box">
@@ -129,7 +227,9 @@ function DepositPage() {
           <button
             className="home-button"
             onClick={() =>
-              navigate("/customer/dashboard")
+              navigate(
+                "/customer/dashboard"
+              )
             }
           >
             ← Back to Home
@@ -144,7 +244,62 @@ function DepositPage() {
 
 
   // =========================
-  // MAIN DEPOSIT PAGE
+  // ACCOUNT LOADING
+  // =========================
+
+  if (accountLoading) {
+
+    return (
+
+      <div className="deposit-page">
+
+        <div className="deposit-card">
+
+          <div className="deposit-header">
+
+            <button
+              className="deposit-back"
+              onClick={() =>
+                navigate(
+                  "/customer/dashboard"
+                )
+              }
+            >
+              ←
+            </button>
+
+            <div>
+
+              <h1>
+                Deposit Money
+              </h1>
+
+              <p>
+                Add money to your account
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="deposit-loading">
+
+            <span className="deposit-loader"></span>
+
+            Loading account details...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    );
+  }
+
+
+  // =========================
+  // MAIN PAGE
   // =========================
 
   return (
@@ -153,31 +308,37 @@ function DepositPage() {
 
       <div className="deposit-card">
 
-        {/* Header */}
+        {/* HEADER */}
 
         <div className="deposit-header">
 
           <button
             className="deposit-back"
             onClick={() =>
-              navigate("/customer/dashboard")
+              navigate(
+                "/customer/dashboard"
+              )
             }
           >
             ←
           </button>
 
           <div>
-            <h1>Deposit Money</h1>
+
+            <h1>
+              Deposit Money
+            </h1>
 
             <p>
               Add money to your account
             </p>
+
           </div>
 
         </div>
 
 
-        {/* Account */}
+        {/* ACCOUNT */}
 
         <div className="account-preview">
 
@@ -192,25 +353,37 @@ function DepositPage() {
             </span>
 
             <strong>
-              Current Account
+              {account.accountType || "Account"}
             </strong>
 
             <small>
-              •••• {accountNumber.slice(-4)}
+              ••••{" "}
+              {account.accountNumber.slice(-4)}
             </small>
 
           </div>
 
           <div className="account-status">
-            ACTIVE
+            {account.status || "ACTIVE"}
           </div>
 
         </div>
 
 
+        {/* ERROR */}
+
+        {error && (
+
+          <div className="deposit-error">
+            ✕ {error}
+          </div>
+
+        )}
+
+
         <form onSubmit={handleContinue}>
 
-          {/* Amount */}
+          {/* AMOUNT */}
 
           <div className="amount-section">
 
@@ -220,7 +393,9 @@ function DepositPage() {
 
             <div className="amount-input">
 
-              <span>₹</span>
+              <span>
+                ₹
+              </span>
 
               <input
                 type="number"
@@ -239,7 +414,7 @@ function DepositPage() {
           </div>
 
 
-          {/* Quick Amount */}
+          {/* QUICK AMOUNT */}
 
           <div className="quick-section">
 
@@ -256,10 +431,15 @@ function DepositPage() {
                     type="button"
                     key={value}
                     onClick={() =>
-                      setAmount(String(value))
+                      setAmount(
+                        String(value)
+                      )
                     }
                   >
-                    ₹{value.toLocaleString("en-IN")}
+                    ₹
+                    {value.toLocaleString(
+                      "en-IN"
+                    )}
                   </button>
 
                 )
@@ -270,20 +450,27 @@ function DepositPage() {
           </div>
 
 
-          {/* Description */}
+          {/* DESCRIPTION */}
 
           <div className="description-section">
 
             <label>
+
               Description
-              <span>Optional</span>
+
+              <span>
+                Optional
+              </span>
+
             </label>
 
             <input
               type="text"
               value={description}
               onChange={(e) =>
-                setDescription(e.target.value)
+                setDescription(
+                  e.target.value
+                )
               }
               placeholder="e.g. Cash deposit"
             />
@@ -291,25 +478,20 @@ function DepositPage() {
           </div>
 
 
-          {/* Error */}
-
-          {error && (
-
-            <div className="deposit-error">
-              ✕ {error}
-            </div>
-
-          )}
-
-
-          {/* Continue */}
+          {/* CONTINUE */}
 
           <button
             type="submit"
             className="continue-button"
+            disabled={!account}
           >
+
             Continue
-            <span>→</span>
+
+            <span>
+              →
+            </span>
+
           </button>
 
         </form>
@@ -348,27 +530,47 @@ function DepositPage() {
             <div className="confirm-details">
 
               <div>
-                <span>Account</span>
+
+                <span>
+                  Account
+                </span>
 
                 <strong>
-                  •••• {accountNumber.slice(-4)}
+                  ••••{" "}
+                  {account.accountNumber.slice(-4)}
                 </strong>
+
               </div>
 
+
               <div>
-                <span>Amount</span>
+
+                <span>
+                  Amount
+                </span>
 
                 <strong>
-                  ₹{Number(amount).toLocaleString("en-IN")}
+                  ₹
+                  {Number(amount)
+                    .toLocaleString(
+                      "en-IN"
+                    )}
                 </strong>
+
               </div>
 
+
               <div>
-                <span>Description</span>
+
+                <span>
+                  Description
+                </span>
 
                 <strong>
-                  {description || "Deposit"}
+                  {description ||
+                    "Deposit"}
                 </strong>
+
               </div>
 
             </div>
@@ -377,6 +579,7 @@ function DepositPage() {
             <div className="confirm-actions">
 
               <button
+                type="button"
                 className="cancel-button"
                 onClick={() =>
                   setShowConfirm(false)
@@ -386,21 +589,27 @@ function DepositPage() {
                 Cancel
               </button>
 
+
               <button
+                type="button"
                 className="confirm-button"
-                onClick={handleConfirmDeposit}
+                onClick={
+                  handleConfirmDeposit
+                }
                 disabled={loading}
               >
 
                 {loading ? (
+
                   <>
                     <span className="deposit-loader"></span>
                     Processing...
                   </>
+
                 ) : (
-                  <>
-                    Confirm Deposit
-                  </>
+
+                  "Confirm Deposit"
+
                 )}
 
               </button>
@@ -414,6 +623,7 @@ function DepositPage() {
       )}
 
     </div>
+
   );
 }
 

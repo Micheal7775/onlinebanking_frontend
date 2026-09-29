@@ -1,5 +1,5 @@
 const API_URL =
-  "https://online-banking-kgrd.onrender.com/api/verification/applications";
+  "http://13.126.207.99:8080/api/verification/applications";
 
 const getToken = () => {
   const token = localStorage.getItem("token");
@@ -35,6 +35,7 @@ export const getSubmittedApplications = async () => {
       "Content-Type": "application/json",
     },
   });
+  
 
   const { data, text } = await parseResponse(response);
 
@@ -86,4 +87,40 @@ export const verifyApplication = async (
   }
 
   return data;
+};
+export const getAllApplications = async () => {
+
+  const token = getToken();
+
+  const response = await fetch(
+    `${API_URL}/all`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const { data, text } =
+    await parseResponse(response);
+
+  console.log(
+    "All Applications:",
+    response.status,
+    data
+  );
+
+  if (!response.ok) {
+
+    throw new Error(
+      data.message ||
+      data.error ||
+      text ||
+      `Failed to fetch applications (${response.status})`
+    );
+  }
+
+  return Array.isArray(data) ? data : [];
 };

@@ -95,16 +95,15 @@ const loadAccount = async (showMessage = false) => {
   // LOGOUT
   // =====================================================
 
-  const handleLogout = () => {
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
+  localStorage.removeItem("role");
+  localStorage.removeItem("customerAccount");
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    localStorage.removeItem("role");
-    localStorage.removeItem("customerAccount");
-
-    window.location.replace("/login");
-
-  };
+  // Full page navigation
+  window.location.href = "/login";
+};
 
 
   // =====================================================
@@ -322,15 +321,9 @@ const loadAccount = async (showMessage = false) => {
 
         <button className="customer-profile">
 
-          <div className="profile-avatar">
+     
 
-            {username
-              ? username
-                  .charAt(0)
-                  .toUpperCase()
-              : "C"}
-
-          </div>
+         
 
           <div className="profile-details">
 
@@ -339,7 +332,7 @@ const loadAccount = async (showMessage = false) => {
             </strong>
 
             <span>
-              Customer
+          
             </span>
 
           </div>
@@ -417,43 +410,8 @@ const loadAccount = async (showMessage = false) => {
             WELCOME
         ================================================= */}
 
-        <section className="welcome-section">
+      
 
-          <div>
-
-            <span className="eyebrow">
-              Welcome to Canda Banking
-            </span>
-
-            <h1>
-               {username}
-            </h1>
-
-            <p>
-              Manage your money, cards and
-              transactions securely.
-            </p>
-
-          </div>
-
-
-          <div className="status-box">
-
-            <span>
-              ACCOUNT STATUS
-            </span>
-
-            <strong>
-
-              <i></i>
-
-              {account?.status || "ACTIVE"}
-
-            </strong>
-
-          </div>
-
-        </section>
 
 
 
@@ -608,9 +566,7 @@ const loadAccount = async (showMessage = false) => {
 
             <div>
 
-              <span className="eyebrow">
-                QUICK ACTIONS
-              </span>
+          
 
               <h2>
                 Banking Services

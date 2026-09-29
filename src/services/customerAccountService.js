@@ -1,13 +1,11 @@
 const API_URL =
-  "https://online-banking-kgrd.onrender.com/api/manager/accounts";
-
+  "http://13.126.207.99:8080/api/manager/accounts";
 
 // =====================================================
 // GET MY ACCOUNT
 // =====================================================
 
 export const getMyAccount = async () => {
-
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -33,9 +31,7 @@ export const getMyAccount = async () => {
   let data = {};
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : {};
+    data = text ? JSON.parse(text) : {};
   } catch {
     data = {};
   }
@@ -47,34 +43,34 @@ export const getMyAccount = async () => {
   );
 
   if (!response.ok) {
-
     throw new Error(
       data.message ||
-      data.error ||
-      text ||
-      `Failed to fetch account (${response.status})`
+        data.error ||
+        text ||
+        `Failed to fetch account (${response.status})`
     );
+  }
 
+  if (
+    !data ||
+    !data.accountNumber
+  ) {
+    throw new Error(
+      "Customer account details are not available. Please login again."
+    );
   }
 
   return data;
 };
 
-
 // =====================================================
 // GET ACCOUNT DETAILS BY ACCOUNT NUMBER
-// =====================================================
-// Keep this only for pages that already have
-// a valid account-number GET endpoint.
-// Dashboard should NOT use this.
 // =====================================================
 
 export const getAccountDetails = async (
   accountNumber
 ) => {
-
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error(
@@ -96,51 +92,36 @@ export const getAccountDetails = async (
       method: "GET",
 
       headers: {
-        Authorization:
-          `Bearer ${token}`,
-
-        "Content-Type":
-          "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }
   );
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
   let data = {};
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : {};
+    data = text ? JSON.parse(text) : {};
   } catch {
     data = {};
   }
 
   if (!response.ok) {
-
     throw new Error(
       data.message ||
-      data.error ||
-      text ||
-      `Failed to fetch account (${response.status})`
+        data.error ||
+        text ||
+        `Failed to fetch account (${response.status})`
     );
-
   }
 
   return data;
 };
 
-
 // =====================================================
-// DEPOSIT
-// =====================================================
-
-
-
-// =====================================================
-// WITHDRAW
+// WITHDRAW MONEY
 // =====================================================
 
 export const withdrawMoney = async (
@@ -148,9 +129,7 @@ export const withdrawMoney = async (
   amount,
   description
 ) => {
-
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error(
@@ -178,11 +157,8 @@ export const withdrawMoney = async (
       method: "POST",
 
       headers: {
-        "Content-Type":
-          "application/json",
-
-        Authorization:
-          `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
 
       body: JSON.stringify({
@@ -194,33 +170,33 @@ export const withdrawMoney = async (
     }
   );
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
   let data = {};
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : {};
+    data = text ? JSON.parse(text) : {};
   } catch {
     data = {};
   }
 
-  if (!response.ok) {
+  console.log(
+    "WITHDRAW RESPONSE:",
+    response.status,
+    data
+  );
 
+  if (!response.ok) {
     throw new Error(
       data.message ||
-      data.error ||
-      text ||
-      "Withdrawal failed"
+        data.error ||
+        text ||
+        "Withdrawal failed"
     );
-
   }
 
   return data;
 };
-
 
 // =====================================================
 // REQUEST TRANSFER OTP
@@ -231,9 +207,7 @@ export const requestTransferOtp = async (
   toAccountNumber,
   amount
 ) => {
-
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error(
@@ -267,47 +241,36 @@ export const requestTransferOtp = async (
       method: "POST",
 
       headers: {
-        "Content-Type":
-          "application/json",
-
-        Authorization:
-          `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
 
       body: JSON.stringify({
-
         toAccountNumber:
           String(toAccountNumber).trim(),
 
-        amount:
-          Number(amount),
-
+        amount: Number(amount),
       }),
     }
   );
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
   let data = {};
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : {};
+    data = text ? JSON.parse(text) : {};
   } catch {
     data = {};
   }
 
   if (!response.ok) {
-
     throw new Error(
       data.message ||
-      data.error ||
-      text ||
-      "Failed to generate OTP"
+        data.error ||
+        text ||
+        "Failed to generate OTP"
     );
-
   }
 
   console.log(
@@ -318,7 +281,6 @@ export const requestTransferOtp = async (
   return data;
 };
 
-
 // =====================================================
 // CONFIRM TRANSFER WITH OTP
 // =====================================================
@@ -328,9 +290,7 @@ export const transferWithOtp = async (
   otpCode,
   description
 ) => {
-
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error(
@@ -361,52 +321,40 @@ export const transferWithOtp = async (
       method: "POST",
 
       headers: {
-        "Content-Type":
-          "application/json",
-
-        Authorization:
-          `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
 
       body: JSON.stringify({
-
-        otp:
-          enteredOtp,
+        otp: enteredOtp,
 
         description:
           description?.trim() || "",
-
       }),
     }
   );
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
   let data = {};
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : {};
+    data = text ? JSON.parse(text) : {};
   } catch {
     data = {};
   }
 
   if (!response.ok) {
-
     throw new Error(
       data.message ||
-      data.error ||
-      text ||
-      "Transfer failed"
+        data.error ||
+        text ||
+        "Transfer failed"
     );
-
   }
 
   return data;
 };
-
 
 // =====================================================
 // GET TRANSACTION HISTORY
@@ -415,13 +363,17 @@ export const transferWithOtp = async (
 export const getTransactionHistory = async (
   accountNumber
 ) => {
-
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error(
       "Session expired. Please login again."
+    );
+  }
+
+  if (!accountNumber) {
+    throw new Error(
+      "Account number is required."
     );
   }
 
@@ -433,42 +385,33 @@ export const getTransactionHistory = async (
       method: "GET",
 
       headers: {
-        Authorization:
-          `Bearer ${token}`,
-
-        "Content-Type":
-          "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }
   );
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
   let data = [];
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : [];
+    data = text ? JSON.parse(text) : [];
   } catch {
     data = [];
   }
 
   if (!response.ok) {
-
     throw new Error(
       data.message ||
-      data.error ||
-      text ||
-      "Failed to fetch transactions"
+        data.error ||
+        text ||
+        "Failed to fetch transactions"
     );
-
   }
 
   return data;
 };
-
 
 // =====================================================
 // GET STATEMENT
@@ -479,13 +422,17 @@ export const getStatement = async (
   fromDate,
   toDate
 ) => {
-
-  const token =
-    localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error(
       "Session expired. Please login again."
+    );
+  }
+
+  if (!accountNumber) {
+    throw new Error(
+      "Account number is required."
     );
   }
 
@@ -501,37 +448,29 @@ export const getStatement = async (
       method: "GET",
 
       headers: {
-        Authorization:
-          `Bearer ${token}`,
-
-        "Content-Type":
-          "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }
   );
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
   let data = [];
 
   try {
-    data = text
-      ? JSON.parse(text)
-      : [];
+    data = text ? JSON.parse(text) : [];
   } catch {
     data = [];
   }
 
   if (!response.ok) {
-
     throw new Error(
       data.message ||
-      data.error ||
-      text ||
-      "Failed to fetch statement"
+        data.error ||
+        text ||
+        "Failed to fetch statement"
     );
-
   }
 
   return data;

@@ -1,5 +1,5 @@
 const API_URL =
-  "https://online-banking-kgrd.onrender.com/api/notifications";
+  "http://13.126.207.99:8080/api/notifications";
 
 
 // =========================

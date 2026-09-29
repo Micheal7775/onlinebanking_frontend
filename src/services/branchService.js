@@ -1,5 +1,5 @@
 const API_URL =
-  "https://online-banking-kgrd.onrender.com/api/admin/branches";
+  "http://13.126.207.99:8080/api/admin/branches";
 
 export const createBranch = async (branchData) => {
   const token = localStorage.getItem("token");

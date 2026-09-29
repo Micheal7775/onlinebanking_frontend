@@ -1,9 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./AdminDashboard.css";
 
 function AdminDashboard() {
-
-  const navigate = useNavigate();
 
   const handleLogout = () => {
 
@@ -23,18 +21,28 @@ function AdminDashboard() {
       <div className="admin-bg-circle circle-2"></div>
 
 
-      {/* Header */}
+      {/* =========================
+          HEADER
+      ========================= */}
+
       <header className="admin-header">
 
         <div className="admin-brand">
 
           <div className="admin-logo">
-            B
+            CB
           </div>
 
-          <div>
-            <h2>Online Banking</h2>
-            <span>Administration Portal</span>
+          <div className="admin-brand-text">
+
+            <h2>
+              Canada Bank
+            </h2>
+
+            <span>
+              Secure Banking Administration
+            </span>
+
           </div>
 
         </div>
@@ -48,21 +56,32 @@ function AdminDashboard() {
               A
             </div>
 
-            <div>
-              <strong>Administrator</strong>
-              <span>System Admin</span>
+            <div className="admin-profile-text">
+
+              <strong>
+                Admin
+              </strong>
+
             </div>
 
           </div>
 
 
           {/* Logout */}
+
           <button
             className="admin-logout"
             onClick={handleLogout}
           >
-            <span>↪</span>
-            Logout
+
+            <span>
+              ↪
+            </span>
+
+            <span className="logout-text">
+              Logout
+            </span>
+
           </button>
 
         </div>
@@ -70,12 +89,20 @@ function AdminDashboard() {
       </header>
 
 
-      {/* Main */}
+      {/* =========================
+          MAIN
+      ========================= */}
+
       <main className="admin-main">
 
-        <div className="welcome-section">
 
-          <div>
+        {/* =========================
+            WELCOME
+        ========================= */}
+
+        <section className="welcome-section">
+
+          <div className="welcome-content">
 
             <span className="dashboard-label">
               ADMIN CONTROL CENTER
@@ -86,8 +113,7 @@ function AdminDashboard() {
             </h1>
 
             <p>
-              Manage branches, staff and banking operations
-              from one secure workspace.
+              Manage branches, employees, customers, and daily banking operations from one place.
             </p>
 
           </div>
@@ -101,64 +127,18 @@ function AdminDashboard() {
 
           </div>
 
-        </div>
-
-
-        {/* Statistics */}
-        <section className="admin-stats">
-
-          <div className="stat-card">
-
-            <div className="stat-icon">
-              🏦
-            </div>
-
-            <div>
-              <span>Branches</span>
-              <strong>Manage</strong>
-            </div>
-
-          </div>
-
-
-          <div className="stat-card">
-
-            <div className="stat-icon">
-              👥
-            </div>
-
-            <div>
-              <span>Staff</span>
-              <strong>Manage</strong>
-            </div>
-
-          </div>
-
-
-          <div className="stat-card">
-
-            <div className="stat-icon">
-              🔐
-            </div>
-
-            <div>
-              <span>Security</span>
-              <strong>Protected</strong>
-            </div>
-
-          </div>
-
         </section>
 
 
-        {/* Operations */}
+        {/* =========================
+            ADMIN OPERATIONS
+        ========================= */}
+
         <section className="operations-section">
 
           <div className="section-heading">
 
             <div>
-
-              <span>ADMINISTRATION</span>
 
               <h2>
                 Admin Operations
@@ -167,7 +147,7 @@ function AdminDashboard() {
             </div>
 
             <p>
-              Select an operation to continue
+              Choose an option to manage your banking operations.
             </p>
 
           </div>
@@ -175,7 +155,11 @@ function AdminDashboard() {
 
           <div className="operation-grid">
 
-            {/* Create Branch */}
+
+            {/* =========================
+                CREATE BRANCH
+            ========================= */}
+
             <Link
               to="/admin/create-branch"
               className="operation-card"
@@ -185,6 +169,7 @@ function AdminDashboard() {
                 🏦
               </div>
 
+
               <div className="operation-content">
 
                 <h3>
@@ -192,12 +177,11 @@ function AdminDashboard() {
                 </h3>
 
                 <p>
-                  Register and configure a new banking
-                  branch.
+                  Add and configure a new banking branch.
                 </p>
 
                 <span className="operation-link">
-                  Open Module →
+                  Create Branch →
                 </span>
 
               </div>
@@ -205,7 +189,43 @@ function AdminDashboard() {
             </Link>
 
 
-            {/* Create Staff */}
+            {/* =========================
+                MANAGE BRANCHES
+            ========================= */}
+
+            <Link
+              to="/admin/branches"
+              className="operation-card"
+            >
+
+              <div className="operation-icon branch-icon">
+                🏢
+              </div>
+
+
+              <div className="operation-content">
+
+                <h3>
+                  Manage Branches
+                </h3>
+
+                <p>
+                  View and manage existing banking branches.
+                </p>
+
+                <span className="operation-link">
+                  Manage Branches →
+                </span>
+
+              </div>
+
+            </Link>
+
+
+            {/* =========================
+                CREATE STAFF
+            ========================= */}
+
             <Link
               to="/admin/create-staff"
               className="operation-card"
@@ -215,6 +235,7 @@ function AdminDashboard() {
                 👤
               </div>
 
+
               <div className="operation-content">
 
                 <h3>
@@ -222,27 +243,98 @@ function AdminDashboard() {
                 </h3>
 
                 <p>
-                  Create staff accounts and assign
-                  banking roles.
+                  Create staff accounts and assign appropriate roles.
                 </p>
 
                 <span className="operation-link">
-                  Open Module →
+                  Create Staff →
                 </span>
 
               </div>
 
             </Link>
 
+
+            {/* =========================
+                MANAGE EMPLOYEES
+            ========================= */}
+
+            <Link
+              to="/admin/employees"
+              className="operation-card"
+            >
+
+              <div className="operation-icon employee-icon">
+                👥
+              </div>
+
+
+              <div className="operation-content">
+
+                <h3>
+                  Manage Employees
+                </h3>
+
+                <p>
+                  View and manage employee information and roles.
+                </p>
+
+                <span className="operation-link">
+                  Manage Employees →
+                </span>
+
+              </div>
+
+            </Link>
+
+
+            {/* =========================
+                MANAGE CUSTOMERS
+            ========================= */}
+
+            <Link
+              to="/admin/customers"
+              className="operation-card"
+            >
+
+              <div className="operation-icon customer-icon">
+                👤
+              </div>
+
+
+              <div className="operation-content">
+
+                <h3>
+                  Manage Customers
+                </h3>
+
+                <p>
+                  View and manage registered customer information.
+                </p>
+
+                <span className="operation-link">
+                  Manage Customers →
+                </span>
+
+              </div>
+
+            </Link>
+
+
           </div>
 
         </section>
 
 
-        {/* Footer */}
+        {/* =========================
+            FOOTER
+        ========================= */}
+
         <footer className="admin-footer">
 
-          <span>🔒</span>
+          <span>
+            🔒
+          </span>
 
           <span>
             Secure Banking Administration
@@ -257,6 +349,7 @@ function AdminDashboard() {
           </span>
 
         </footer>
+
 
       </main>
 

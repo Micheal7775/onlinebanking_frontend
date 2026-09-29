@@ -1,4 +1,4 @@
-const API_URL = "https://online-banking-kgrd.onrender.com/api/auth";
+const API_URL = "http://13.126.207.99:8080/auth";
 
 export const loginUser = async (loginData) => {
   const response = await fetch(`${API_URL}/login`, {

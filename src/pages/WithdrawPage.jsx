@@ -42,6 +42,21 @@ function WithdrawPage() {
 
         const data = await getMyAccount();
 
+        console.log("CUSTOMER ACCOUNT:", data);
+
+        // API returned 200 but the response was empty ({})
+        // Do not allow the page to render with an incomplete account object.
+        if (
+          !data ||
+          !data.accountNumber ||
+          data.balance === undefined ||
+          data.balance === null
+        ) {
+          throw new Error(
+            "Customer account details are not available. Please login again."
+          );
+        }
+
         setAccount(data);
 
       } catch (error) {
@@ -259,6 +274,36 @@ function WithdrawPage() {
 
 
   // =========================
+  // ACCOUNT ERROR
+  // =========================
+
+  if (error && !account) {
+    return (
+      <div className="withdraw-page">
+        <div className="withdraw-card">
+          <div className="withdraw-header">
+            <h1>Withdraw Money</h1>
+            <p>Unable to load your account</p>
+          </div>
+
+          <div className="withdraw-error">
+            ✕ {error}
+          </div>
+
+          <button
+            className="continue-button"
+            type="button"
+            onClick={() => window.location.reload()}
+          >
+            Try Again
+            <span>↻</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================
   // WITHDRAW PAGE
   // =========================
 
@@ -321,7 +366,7 @@ function WithdrawPage() {
 
               <small>
                 ••••{" "}
-                {account.accountNumber.slice(-4)}
+                {account.accountNumber?.slice(-4) || "----"}
               </small>
 
             </div>
@@ -530,7 +575,7 @@ function WithdrawPage() {
 
                 <strong>
                   ••••{" "}
-                  {account.accountNumber.slice(-4)}
+                  {account.accountNumber?.slice(-4) || "----"}
                 </strong>
 
               </div>

@@ -1,12 +1,12 @@
 const API_URL =
-  "https://online-banking-kgrd.onrender.com/api/staff/customers";
+  "http://13.126.207.99:8080/api/staff/customers";
 
 
-// =========================
-// CREATE CUSTOMER
-// =========================
+// =====================================================
+// TOKEN
+// =====================================================
 
-export const createCustomer = async (customerData) => {
+const getToken = () => {
 
   const token = localStorage.getItem("token");
 
@@ -14,16 +14,15 @@ export const createCustomer = async (customerData) => {
     throw new Error("Session expired. Please login again.");
   }
 
-  const response = await fetch(API_URL, {
-    method: "POST",
+  return token;
+};
 
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
 
-    body: JSON.stringify(customerData),
-  });
+// =====================================================
+// RESPONSE HANDLER
+// =====================================================
+
+const handleResponse = async (response) => {
 
   const text = await response.text();
 
@@ -36,17 +35,18 @@ export const createCustomer = async (customerData) => {
   }
 
   console.log(
-    "Create Customer:",
+    "API Response:",
     response.status,
     data
   );
 
   if (!response.ok) {
+
     throw new Error(
       data.message ||
       data.error ||
       text ||
-      `Failed to create customer (${response.status})`
+      `Request failed (${response.status})`
     );
   }
 
@@ -54,19 +54,146 @@ export const createCustomer = async (customerData) => {
 };
 
 
-// =========================
+// =====================================================
+// CREATE CUSTOMER
+// POST /api/staff/customers
+// =====================================================
+
+export const createCustomer = async (customerData) => {
+
+  const token = getToken();
+
+  const response = await fetch(API_URL, {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+
+    body: JSON.stringify(customerData),
+
+  });
+
+  return await handleResponse(response);
+};
+
+
+// =====================================================
+// GET ALL CUSTOMERS
+// GET /api/staff/customers
+// =====================================================n
+
+export const getAllCustomers = async () => {
+
+  const token = getToken();
+
+  const response = await fetch(API_URL, {
+
+    method: "GET",
+
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+
+  });
+
+  const data = await handleResponse(response);
+
+  return Array.isArray(data) ? data : [];
+};
+
+
+// =====================================================
+// GET CUSTOMER BY ID
+// GET /api/staff/customers/{customerId}
+// =====================================================
+
+export const getCustomerById = async (customerId) => {
+
+  const token = getToken();
+
+  const response = await fetch(
+    `${API_URL}/${customerId}`,
+    {
+      method: "GET",
+
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return await handleResponse(response);
+};
+
+
+// =====================================================
+// UPDATE CUSTOMER
+// PUT /api/staff/customers/{customerId}
+// =====================================================
+
+export const updateCustomer = async (
+  customerId,
+  customerData
+) => {
+
+  const token = getToken();
+
+  const response = await fetch(
+    `${API_URL}/${customerId}`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+
+      body: JSON.stringify(customerData),
+    }
+  );
+
+  return await handleResponse(response);
+};
+
+
+// =====================================================
+// DELETE CUSTOMER
+// DELETE /api/staff/customers/{customerId}
+// =====================================================
+
+export const deleteCustomer = async (customerId) => {
+
+  const token = getToken();
+
+  const response = await fetch(
+    `${API_URL}/${customerId}`,
+    {
+      method: "DELETE",
+
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return await handleResponse(response);
+};
+
+
+// =====================================================
 // GET ACCOUNT DETAILS
-// =========================
+// =====================================================
 
 export const getAccountDetails = async (
   accountNumber
 ) => {
 
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    throw new Error("Session expired. Please login again.");
-  }
+  const token = getToken();
 
   const response = await fetch(
     `${API_URL}/${encodeURIComponent(accountNumber)}`,
@@ -79,30 +206,5 @@ export const getAccountDetails = async (
     }
   );
 
-  const text = await response.text();
-
-  let data = {};
-
-  try {
-    data = text ? JSON.parse(text) : {};
-  } catch {
-    data = {};
-  }
-
-  console.log(
-    "Get Account Details:",
-    response.status,
-    data
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      data.message ||
-      data.error ||
-      text ||
-      `Failed to fetch account details (${response.status})`
-    );
-  }
-
-  return data;
+  return await handleResponse(response);
 };

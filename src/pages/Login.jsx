@@ -4,7 +4,6 @@ import { loginUser } from "../services/authService";
 import "../login.css";
 
 function Login() {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,63 +11,51 @@ function Login() {
   const [error, setError] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
-
-  // =========================
+  // =====================================================
   // CHECK EXISTING LOGIN
-  // =========================
-  useEffect(() => {
+  // =====================================================
 
+  useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (token) {
-
-      const role = localStorage.getItem("role");
-
-      if (role === "CUSTOMER") {
-
-        navigate("/customer/dashboard", {
-          replace: true
-        });
-
-      } else if (role === "ADMIN") {
-
-        navigate("/admin/dashboard", {
-          replace: true
-        });
-
-      } else if (role === "ACCOUNT_OPENING_STAFF") {
-
-        navigate("/staff/dashboard", {
-          replace: true
-        });
-
-      } else if (role === "DOCUMENT_VERIFICATION_STAFF") {
-
-        navigate("/verification/dashboard", {
-          replace: true
-        });
-
-      } else if (role === "BANK_MANAGER") {
-
-        navigate("/manager/dashboard", {
-          replace: true
-        });
-
-      }
-
+    if (!token) {
+      return;
     }
 
+    const role = localStorage.getItem("role");
+
+    if (role === "CUSTOMER") {
+      navigate("/customer/dashboard", {
+        replace: true,
+      });
+    } else if (role === "ADMIN") {
+      navigate("/admin/dashboard", {
+        replace: true,
+      });
+    } else if (role === "ACCOUNT_OPENING_STAFF") {
+      navigate("/staff/dashboard", {
+        replace: true,
+      });
+    } else if (role === "DOCUMENT_VERIFICATION_STAFF") {
+      navigate("/verification/dashboard", {
+        replace: true,
+      });
+    } else if (role === "BANK_MANAGER") {
+      navigate("/manager/dashboard", {
+        replace: true,
+      });
+    }
   }, [navigate]);
 
-
-  // =========================
+  // =====================================================
   // LOGIN
-  // =========================
-  const handleLogin = async (e) => {
+  // =====================================================
 
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     setMessage("");
@@ -76,89 +63,134 @@ function Login() {
     setLoading(true);
 
     try {
-
       const data = await loginUser({
-        username,
-        password
+        username: username.trim(),
+        password,
       });
 
       console.log("Login Response:", data);
 
+      // =================================================
+      // VALIDATE RESPONSE
+      // =================================================
 
-      // Save login details
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("role", data.role);
+      if (!data || !data.token || !data.role) {
+        throw new Error(
+          "Invalid login response from server."
+        );
+      }
 
+      // =================================================
+      // SAVE LOGIN DETAILS
+      // =================================================
+
+      localStorage.setItem(
+        "token",
+        data.token
+      );
+
+      localStorage.setItem(
+        "username",
+        data.username || username.trim()
+      );
+
+      localStorage.setItem(
+        "role",
+        data.role
+      );
 
       setMessage("Login successful!");
 
-
-      // =========================
+      // =================================================
       // ROLE BASED NAVIGATION
-      // =========================
+      // =================================================
 
-      if (data.role === "ADMIN") {
+      switch (data.role) {
+        case "ADMIN":
+          navigate("/admin/dashboard", {
+            replace: true,
+          });
+          break;
 
-        navigate("/admin/dashboard", {
-          replace: true
-        });
+        case "ACCOUNT_OPENING_STAFF":
+          navigate("/staff/dashboard", {
+            replace: true,
+          });
+          break;
 
-      } else if (data.role === "ACCOUNT_OPENING_STAFF") {
+        case "DOCUMENT_VERIFICATION_STAFF":
+          navigate("/verification/dashboard", {
+            replace: true,
+          });
+          break;
 
-        navigate("/staff/dashboard", {
-          replace: true
-        });
+        case "BANK_MANAGER":
+          navigate("/manager/dashboard", {
+            replace: true,
+          });
+          break;
 
-      } else if (data.role === "DOCUMENT_VERIFICATION_STAFF") {
+        case "CUSTOMER":
+          navigate("/customer/dashboard", {
+            replace: true,
+          });
+          break;
 
-        navigate("/verification/dashboard", {
-          replace: true
-        });
+        default:
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          localStorage.removeItem("role");
 
-      } else if (data.role === "BANK_MANAGER") {
-
-        navigate("/manager/dashboard", {
-          replace: true
-        });
-
-      } else if (data.role === "CUSTOMER") {
-
-        navigate("/customer/dashboard", {
-          replace: true
-        });
-
+          throw new Error(
+            "Invalid user role."
+          );
       }
-
     } catch (error) {
-
       console.error("Login Error:", error);
 
       setError(
         error.message || "Login failed"
       );
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
+  // =====================================================
+  // DEMO FEATURES
+  // =====================================================
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    setError("");
+    setMessage("");
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setError("");
+    setMessage("");
+  };
 
   return (
-
     <div className="login-page">
 
-      {/* =========================
-          ANIMATED BACKGROUND
-      ========================= */}
+      {/* =================================================
+          BACKGROUND
+      ================================================= */}
 
       <div className="login-background">
 
+        <div className="background-glow glow-one"></div>
+
+        <div className="background-glow glow-two"></div>
+
+        <div className="background-grid"></div>
+
         <div className="floating-circle circle-one"></div>
+
         <div className="floating-circle circle-two"></div>
+
         <div className="floating-circle circle-three"></div>
 
         <span className="money-particle particle-one">
@@ -180,45 +212,81 @@ function Login() {
       </div>
 
 
-      {/* =========================
+      {/* =================================================
           MAIN CONTAINER
-      ========================= */}
+      ================================================= */}
 
       <div className="login-container">
 
 
-        {/* =========================
-            LEFT SIDE
-        ========================= */}
+        {/* =================================================
+            LEFT SHOWCASE
+        ================================================= */}
 
         <div className="login-showcase">
 
+          <div className="showcase-overlay"></div>
+
           <div className="showcase-content">
 
-            <div className="brand-logo">
-              B
+            {/* BRAND */}
+
+            <div className="brand-area">
+
+              <div className="brand-logo">
+                B
+              </div>
+
+              <div className="brand-name">
+                <strong>
+                  Canada Banking
+                </strong>
+
+                <span>
+                  DIGITAL BANKING
+                </span>
+              </div>
+
             </div>
 
-            <h1>
-              Canada
-              <span>Banking</span>
-            </h1>
 
-            <p>
-              Secure. Simple. Smart Banking.
-            </p>
+            {/* HERO TEXT */}
+
+            <div className="showcase-heading">
+
+              <span className="welcome-label">
+                WELCOME TO
+              </span>
+
+              <h1>
+                Secure banking.
+                <br />
+
+                <span>
+                  Made simple.
+                </span>
+              </h1>
+
+              <p>
+                Manage your money, payments and
+                accounts securely from one place.
+              </p>
+
+            </div>
 
 
-            {/* =========================
-                ANIMATED CARD
-            ========================= */}
+            {/* =================================================
+                BANK CARD
+            ================================================= */}
 
             <div className="bank-card-animation">
+
+              <div className="card-shine"></div>
 
               <div className="card-top">
 
                 <span className="card-brand">
-                  BANK
+                  CANADA BANKING
                 </span>
 
                 <span className="card-chip">
@@ -227,30 +295,34 @@ function Login() {
 
               </div>
 
-
               <div className="card-number">
                 •••• &nbsp; •••• &nbsp; •••• &nbsp; 4821
               </div>
 
-
               <div className="card-bottom">
 
-                <span>
-                  SECURE ACCOUNT
-                </span>
+                <div>
+                  <small>
+                    CARD HOLDER
+                  </small>
 
-                <span>
+                  <span>
+                    SECURE CUSTOMER
+                  </span>
+                </div>
+
+                <strong>
                   VISA
-                </span>
+                </strong>
 
               </div>
 
             </div>
 
 
-            {/* =========================
+            {/* =================================================
                 SECURITY LINE
-            ========================= */}
+            ================================================= */}
 
             <div className="security-line">
 
@@ -262,28 +334,121 @@ function Login() {
 
             </div>
 
+
+            {/* =================================================
+                FEATURE ITEMS
+            ================================================= */}
+
+            <div className="showcase-features">
+
+              <div className="feature-item">
+
+                <span className="feature-icon">
+                  ✓
+                </span>
+
+                <div>
+                  <strong>
+                    Secure Access
+                  </strong>
+
+                  <span>
+                    Protected banking environment
+                  </span>
+                </div>
+
+              </div>
+
+
+              <div className="feature-item">
+
+                <span className="feature-icon">
+                  ↗
+                </span>
+
+                <div>
+                  <strong>
+                    Easy Payments
+                  </strong>
+
+                  <span>
+                    Manage your transactions easily
+                  </span>
+                </div>
+
+              </div>
+
+
+              <div className="feature-item">
+
+                <span className="feature-icon">
+                  ◉
+                </span>
+
+                <div>
+                  <strong>
+                    Always Connected
+                  </strong>
+
+                  <span>
+                    Access your account anytime
+                  </span>
+                </div>
+
+              </div>
+
+            </div>
+
           </div>
 
         </div>
 
 
-        {/* =========================
-            RIGHT SIDE LOGIN
-        ========================= */}
+        {/* =================================================
+            RIGHT LOGIN PANEL
+        ================================================= */}
 
         <div className="login-panel">
 
           <div className="login-box">
 
+
+            {/* =================================================
+                MOBILE BRAND
+            ================================================= */}
+
+            <div className="mobile-brand">
+
+              <div className="mobile-brand-logo">
+                B
+              </div>
+
+              <div>
+
+                <strong>
+                  Canada Banking
+                </strong>
+
+                <span>
+                  DIGITAL BANKING
+                </span>
+
+              </div>
+
+            </div>
+
+
+            {/* =================================================
+                LOGIN HEADING
+            ================================================= */}
+
             <div className="login-heading">
 
-              <span className="mobile-logo">
-                B
+              <span className="login-badge">
+                SECURE LOGIN
               </span>
 
-              <h2>
-                Welcome Back
-              </h2>
+            
 
               <p>
                 Sign in to continue to your account
@@ -292,18 +457,21 @@ function Login() {
             </div>
 
 
-            {/* =========================
+            {/* =================================================
                 LOGIN FORM
-            ========================= */}
+            ================================================= */}
 
-            <form onSubmit={handleLogin}>
+            <form
+              onSubmit={handleLogin}
+              className="login-form"
+            >
 
 
               {/* USERNAME */}
 
               <div className="input-group">
 
-                <label>
+                <label htmlFor="username">
                   Username
                 </label>
 
@@ -314,12 +482,14 @@ function Login() {
                   </span>
 
                   <input
+                    id="username"
                     type="text"
-                    placeholder="Enter username"
+                    placeholder="Enter your username"
                     value={username}
-                    onChange={(e) =>
-                      setUsername(e.target.value)
+                    onChange={
+                      handleUsernameChange
                     }
+                    autoComplete="username"
                     required
                   />
 
@@ -332,9 +502,17 @@ function Login() {
 
               <div className="input-group">
 
-                <label>
-                  Password
-                </label>
+                <div className="password-label-row">
+
+                  <label htmlFor="password">
+                    Password
+                  </label>
+
+                  <span className="secure-label">
+                    Secure
+                  </span>
+
+                </div>
 
                 <div className="input-wrapper">
 
@@ -343,14 +521,39 @@ function Login() {
                   </span>
 
                   <input
-                    type="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) =>
-                      setPassword(e.target.value)
+                    id="password"
+                    type={
+                      showPassword
+                        ? "text"
+                        : "password"
                     }
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={
+                      handlePasswordChange
+                    }
+                    autoComplete="current-password"
                     required
                   />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() =>
+                      setShowPassword(
+                        !showPassword
+                      )
+                    }
+                    aria-label={
+                      showPassword
+                        ? "Hide password"
+                        : "Show password"
+                    }
+                  >
+                    {showPassword
+                      ? "🙈"
+                      : "👁"}
+                  </button>
 
                 </div>
 
@@ -366,22 +569,23 @@ function Login() {
               >
 
                 {loading ? (
-
                   <>
                     <span className="button-loader"></span>
-                    Signing in...
+
+                    <span>
+                      Signing in...
+                    </span>
                   </>
-
                 ) : (
-
                   <>
-                    Login
+                    <span>
+                      Sign In
+                    </span>
 
                     <span className="login-arrow">
                       →
                     </span>
                   </>
-
                 )}
 
               </button>
@@ -389,35 +593,47 @@ function Login() {
             </form>
 
 
-            {/* =========================
+            {/* =================================================
                 SUCCESS MESSAGE
-            ========================= */}
+            ================================================= */}
 
             {message && (
 
               <div className="login-success">
-                ✓ {message}
+                <span>✓</span>
+
+                <span>
+                  {message}
+                </span>
               </div>
 
             )}
 
 
-            {/* =========================
+            {/* =================================================
                 ERROR MESSAGE
-            ========================= */}
+            ================================================= */}
 
             {error && (
 
               <div className="login-error">
-                ✕ {error}
+
+                <span>
+                  !
+                </span>
+
+                <span>
+                  {error}
+                </span>
+
               </div>
 
             )}
 
 
-            {/* =========================
+            {/* =================================================
                 REGISTER
-            ========================= */}
+            ================================================= */}
 
             <div className="register-text">
 
@@ -432,19 +648,27 @@ function Login() {
             </div>
 
 
-            {/* =========================
+            {/* =================================================
                 SECURITY FOOTER
-            ========================= */}
+            ================================================= */}
 
             <div className="secure-footer">
 
-              <span>
+              <div className="secure-footer-icon">
                 🔐
-              </span>
+              </div>
 
-              <span>
-                256-bit secure connection
-              </span>
+              <div>
+
+                <strong>
+                  Secure connection
+                </strong>
+
+                <span>
+                  256-bit encrypted banking
+                </span>
+
+              </div>
 
             </div>
 
@@ -454,8 +678,24 @@ function Login() {
 
       </div>
 
-    </div>
 
+      {/* =================================================
+          MOBILE BOTTOM SECURITY
+      ================================================= */}
+
+      <div className="mobile-security">
+
+        <span>
+          🔐
+        </span>
+
+        <span>
+          Secure & encrypted banking
+        </span>
+
+      </div>
+
+    </div>
   );
 }
 

@@ -1,54 +1,42 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-function ProtectedRoute({
-  allowedRoles = [],
-}) {
+function ProtectedRoute({ allowedRoles = [] }) {
+  const location = useLocation();
 
-  // =====================================================
-  // GET AUTH DATA
-  // =====================================================
-
-  const token =
-    localStorage.getItem("token");
-
-  const role =
-    localStorage.getItem("role");
-
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   // =====================================================
-  // NOT LOGGED IN
+  // NO ACTIVE LOGIN SESSION
   // =====================================================
 
-  if (!token) {
-
+  if (!token || !role) {
     return (
       <Navigate
         to="/login"
         replace
+        state={{
+          from: location.pathname,
+        }}
       />
     );
-
   }
 
-
   // =====================================================
-  // ROLE CHECK
+  // ROLE NOT ALLOWED
   // =====================================================
 
   if (
     allowedRoles.length > 0 &&
     !allowedRoles.includes(role)
   ) {
-
     return (
       <Navigate
         to="/unauthorized"
         replace
       />
     );
-
   }
-
 
   // =====================================================
   // AUTHORIZED

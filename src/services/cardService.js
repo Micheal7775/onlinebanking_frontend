@@ -1,5 +1,5 @@
 const API_URL =
-  "https://online-banking-kgrd.onrender.com/api/cards";
+  "http://13.126.207.99:8080/api/cards";
 
 const getToken = () => {
   const token = localStorage.getItem("token");

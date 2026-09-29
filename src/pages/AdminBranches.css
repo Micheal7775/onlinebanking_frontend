@@ -1,0 +1,840 @@
+/* =========================================
+   ADMIN BRANCH MANAGEMENT
+========================================= */
+
+.branches-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 32px 24px;
+  box-sizing: border-box;
+}
+
+.branches-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.branches-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 25px;
+}
+
+.branches-label {
+  display: block;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 7px;
+}
+
+.branches-header h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.branches-header p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* =========================================
+   REFRESH BUTTON
+========================================= */
+
+.branch-refresh-btn {
+  border: 1px solid #dbeafe;
+  background: #ffffff;
+  color: #2563eb;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.branch-refresh-btn:hover {
+  background: #eff6ff;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.branches-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.branch-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  min-width: 190px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+}
+
+.branch-summary-icon {
+  width: 43px;
+  height: 43px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff6ff;
+  font-size: 21px;
+}
+
+.branch-summary span {
+  display: block;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.branch-summary strong {
+  display: block;
+  margin-top: 2px;
+  color: #0f172a;
+  font-size: 22px;
+}
+
+
+/* =========================================
+   DESKTOP TABLE
+========================================= */
+
+.branches-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+.branches-table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: collapse;
+}
+
+.branches-table thead {
+  background: #f8fafc;
+}
+
+.branches-table th {
+  padding: 15px 16px;
+  text-align: left;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.branches-table td {
+  padding: 16px;
+  color: #334155;
+  font-size: 13px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.branches-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.branches-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+
+/* =========================================
+   BRANCH TEXT
+========================================= */
+
+.branch-code {
+  color: #2563eb !important;
+  font-weight: 800;
+}
+
+.branch-ifsc {
+  color: #475569 !important;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.branch-name {
+  color: #0f172a !important;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.branch-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.branch-status.active {
+  background: #ecfdf5;
+  color: #15803d;
+}
+
+.branch-status.inactive {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.branch-status.closed {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.branch-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.branch-edit-btn {
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 8px 11px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.branch-edit-btn:hover {
+  background: #dbeafe;
+}
+
+.branch-delete-btn {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #dc2626;
+  padding: 8px 11px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.branch-delete-btn:hover {
+  background: #fee2e2;
+}
+
+
+/* =========================================
+   MOBILE LIST
+========================================= */
+
+.branches-mobile-list {
+  display: none;
+}
+
+
+/* =========================================
+   BRANCH CARD
+========================================= */
+
+.branch-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 17px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.branch-card-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.branch-avatar {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff6ff;
+  font-size: 19px;
+}
+
+.branch-card-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.branch-card-title h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.branch-card-title span {
+  display: block;
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+
+/* =========================================
+   CARD DETAILS
+========================================= */
+
+.branch-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 16px 0;
+}
+
+.branch-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.branch-detail span {
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.branch-detail strong {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   MOBILE ACTIONS
+========================================= */
+
+.branch-mobile-actions {
+  display: flex;
+  gap: 9px;
+  padding-top: 2px;
+}
+
+.branch-mobile-edit,
+.branch-mobile-delete {
+  flex: 1;
+  padding: 11px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.branch-mobile-edit {
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.branch-mobile-edit:hover {
+  background: #dbeafe;
+}
+
+.branch-mobile-delete {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #dc2626;
+}
+
+.branch-mobile-delete:hover {
+  background: #fee2e2;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-branches {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 55px 20px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.04);
+}
+
+.empty-branch-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.empty-branches h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 19px;
+}
+
+.empty-branches p {
+  margin: 7px 0 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.branches-loading {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+}
+
+.branches-loading p {
+  margin-top: 13px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.branch-spinner {
+  width: 35px;
+  height: 35px;
+  border: 3px solid #dbeafe;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: branch-spin 0.8s linear infinite;
+}
+
+@keyframes branch-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================
+   EDIT MODAL
+========================================= */
+
+.branch-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.branch-modal {
+  width: 100%;
+  max-width: 570px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.branch-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+
+  margin-bottom: 22px;
+}
+
+.branch-modal-header span {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.branch-modal-header h2 {
+  margin: 5px 0 0;
+  color: #0f172a;
+  font-size: 23px;
+}
+
+.modal-close {
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #64748b;
+
+  border-radius: 9px;
+  cursor: pointer;
+
+  font-size: 22px;
+  line-height: 1;
+
+  transition: 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+
+/* =========================================
+   EDIT FORM
+========================================= */
+
+.branch-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+
+  padding: 11px 12px;
+  border-radius: 9px;
+
+  font-size: 13px;
+  outline: none;
+
+  transition: border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+
+/* =========================================
+   MODAL BUTTONS
+========================================= */
+
+.branch-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 8px;
+  padding-top: 18px;
+
+  border-top: 1px solid #f1f5f9;
+}
+
+.cancel-edit-btn,
+.save-branch-btn {
+  padding: 11px 17px;
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.cancel-edit-btn {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+}
+
+.cancel-edit-btn:hover {
+  background: #f8fafc;
+}
+
+.save-branch-btn {
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.save-branch-btn:hover {
+  background: #1d4ed8;
+}
+
+.save-branch-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .branches-page {
+    padding: 25px 18px;
+  }
+
+  .branches-header h1 {
+    font-size: 27px;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .branches-page {
+    padding: 18px 13px;
+  }
+
+  .branches-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .branches-header h1 {
+    font-size: 24px;
+  }
+
+  .branches-header p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .branch-refresh-btn {
+    width: 100%;
+    padding: 11px;
+  }
+
+  .branch-summary {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 17px;
+  }
+
+
+  /* Hide desktop table */
+
+  .branches-table-wrapper {
+    display: none;
+  }
+
+
+  /* Show mobile cards */
+
+  .branches-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .branch-card {
+    padding: 15px;
+  }
+
+  .branch-card-header {
+    gap: 9px;
+  }
+
+  .branch-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+  }
+
+  .branch-card-title h3 {
+    font-size: 14px;
+  }
+
+  .branch-status {
+    font-size: 9px;
+    padding: 4px 7px;
+  }
+
+  .branch-detail strong {
+    font-size: 12px;
+  }
+
+
+  /* Modal */
+
+  .branch-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .branch-modal {
+    max-width: none;
+    max-height: 92vh;
+
+    border-radius: 20px 20px 0 0;
+
+    padding: 20px 16px;
+  }
+
+  .branch-modal-header h2 {
+    font-size: 21px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .branch-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-edit-btn,
+  .save-branch-btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+
+  .branches-page {
+    padding: 15px 10px;
+  }
+
+  .branches-header h1 {
+    font-size: 21px;
+  }
+
+  .branch-card {
+    padding: 13px;
+  }
+
+  .branch-card-header {
+    align-items: flex-start;
+  
+
+  .branch-status {
+    margin-left: auto;
+  }
+
+}}

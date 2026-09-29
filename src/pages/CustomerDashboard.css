@@ -47,26 +47,24 @@
 }
 
 .bank-logo {
-  width: 42px;
-  height: 42px;
+   width: 44px;
+  height: 44px;
+
+  border-radius: 12px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 12px;
+  background: #172033;
+  color: #ffffff;
 
-  background: linear-gradient(
-    135deg,
-    #111827,
-    #374151
-  );
-
-  color: white;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
-  letter-spacing: 1px;
+
+  box-shadow: 0 5px 14px rgba(23, 32, 51, 0.15);
 }
+  
 
 .brand-content h2 {
   margin: 0;
@@ -215,8 +213,8 @@
 
 .navbar-actions {
   display: flex;
-  align-items: center;
-  gap: 13px;
+  align-items: right;
+  gap: 10px;
 }
 
 .nav-divider {
