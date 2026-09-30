@@ -150,7 +150,7 @@ const handleLogout = () => {
       ================================================= */}
 <header className="customer-navbar">
 
-  <div className="navbar-container">
+
 
     {/* BRAND */}
 
@@ -161,16 +161,42 @@ const handleLogout = () => {
       }
     >
 
-      <div className="bank-logo">
-        CB
-      </div>
+      <div className="customer-header-left">
 
-      <div className="brand-content">
-        <h2>Canda Banking</h2>
-        <span>Secure Bank</span>
-      </div>
+  <div className="customer-logo">
+    🏦
+  </div>
 
+  <div>
+    <h1>
+      Canada Banking
+    </h1>
+
+    <p>
+      Customer Portal
+    </p>
+  </div>
+
+</div>
+
+
+<div className="customer-header-right">
+
+  <div className="customer-profile">
+
+    <div className="customer-profile-icon">
+      👤
     </div>
+
+    <div>
+      <span>
+        Customer Account
+      </span>
+    </div>
+
+  </div>
+
+</div>
 
     {/* NAVIGATION */}
 
