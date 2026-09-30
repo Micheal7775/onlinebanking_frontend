@@ -641,10 +641,9 @@ function Login() {
                 Don't have an account?
               </span>
 
-              <Link to="/register">
-                Create Account
-              </Link>
-
+              <Link to="/forgot-password">
+    Forgot Password?
+  </Link>
             </div>
 
 

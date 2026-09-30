@@ -9,108 +9,77 @@ import {
 import "./VerificationDashboard.css";
 
 function VerificationDashboard() {
-
   const navigate = useNavigate();
 
   const [applications, setApplications] = useState([]);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [processingId, setProcessingId] = useState(null);
 
-  // HAMBURGER MENU STATE
+  // HAMBURGER MENU
   const [menuOpen, setMenuOpen] = useState(false);
-
 
   // =====================================================
   // LOAD ALL APPLICATIONS
   // =====================================================
 
   const loadApplications = async () => {
-
     try {
-
       setError("");
       setLoading(true);
 
       const data = await getAllApplications();
 
-      setApplications(
-        Array.isArray(data) ? data : []
-      );
-
+      setApplications(Array.isArray(data) ? data : []);
     } catch (error) {
-
-      console.error(
-        "Application Error:",
-        error
-      );
-
-      setError(error.message);
-
+      console.error("Application Error:", error);
+      setError(error.message || "Failed to load applications.");
     } finally {
-
       setLoading(false);
-
     }
   };
-
 
   // =====================================================
   // LOAD ON PAGE OPEN
   // =====================================================
 
   useEffect(() => {
-
     loadApplications();
-
   }, []);
-
 
   // =====================================================
   // VERIFY / REJECT
   // =====================================================
 
-  const handleVerify = async (
-    applicationId,
-    verified
-  ) => {
-
+  const handleVerify = async (applicationId, verified) => {
     setError("");
     setMessage("");
+    setProcessingId(applicationId);
 
     try {
-
-      await verifyApplication(
-        applicationId,
-        verified
-      );
+      await verifyApplication(applicationId, verified);
 
       setMessage(
         verified
           ? "Application verified successfully!"
-          : "Application rejected!"
+          : "Application rejected successfully!"
       );
 
       await loadApplications();
-
     } catch (error) {
-
-      console.error(
-        "Verification Error:",
-        error
-      );
-
-      setError(error.message);
+      console.error("Verification Error:", error);
+      setError(error.message || "Failed to process application.");
+    } finally {
+      setProcessingId(null);
     }
   };
-
 
   // =====================================================
   // LOGOUT
   // =====================================================
 
   const handleLogout = () => {
-
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("role");
@@ -121,20 +90,31 @@ function VerificationDashboard() {
     window.location.replace("/login");
   };
 
+  // =====================================================
+  // FORMAT VALUE
+  // =====================================================
+
+  const displayValue = (value) => {
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      return "Not provided";
+    }
+
+    return value;
+  };
 
   return (
-
     <div className="verification-dashboard">
-
 
       {/* =================================================
           BACKGROUND
       ================================================= */}
 
       <div className="verification-bg-circle verification-circle-one"></div>
-
       <div className="verification-bg-circle verification-circle-two"></div>
-
 
       {/* =================================================
           HEADER
@@ -151,40 +131,25 @@ function VerificationDashboard() {
           </div>
 
           <div>
-
-            <h2>
-              Canda Banking
-            </h2>
-
-            <span>
-              Verification Portal
-            </span>
-
+            <h2>Canda Banking</h2>
+            <span>Verification Portal</span>
           </div>
 
         </div>
 
-
-        {/* =================================================
-            MOBILE HAMBURGER
-        ================================================= */}
+        {/* MOBILE HAMBURGER */}
 
         <button
           className="verification-menu-toggle"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-
           <span></span>
           <span></span>
           <span></span>
-
         </button>
 
-
-        {/* =================================================
-            HEADER RIGHT
-        ================================================= */}
+        {/* HEADER RIGHT */}
 
         <div
           className={`verification-header-right ${
@@ -201,7 +166,6 @@ function VerificationDashboard() {
             </div>
 
             <div>
-
               <strong>
                 Document Verification Staff
               </strong>
@@ -209,11 +173,9 @@ function VerificationDashboard() {
               <span>
                 Verification Access
               </span>
-
             </div>
 
           </div>
-
 
           {/* LOGOUT */}
 
@@ -221,26 +183,19 @@ function VerificationDashboard() {
             className="verification-logout"
             onClick={handleLogout}
           >
-
-            <span>
-              ↪
-            </span>
-
+            <span>↪</span>
             Logout
-
           </button>
 
         </div>
 
       </header>
 
-
       {/* =================================================
           MAIN
       ================================================= */}
 
       <main className="verification-main">
-
 
         {/* =================================================
             WELCOME
@@ -265,17 +220,12 @@ function VerificationDashboard() {
 
           </div>
 
-
           <div className="verification-security-badge">
-
             <span></span>
-
-            verification Secure Access
-
+            Verification Secure Access
           </div>
 
         </section>
-
 
         {/* =================================================
             STATS
@@ -290,7 +240,6 @@ function VerificationDashboard() {
             </div>
 
             <div>
-
               <span>
                 Total Applications
               </span>
@@ -298,46 +247,33 @@ function VerificationDashboard() {
               <strong>
                 {applications.length}
               </strong>
-
             </div>
 
           </div>
 
         </section>
 
-
         {/* =================================================
             MESSAGES
         ================================================= */}
 
         {message && (
-
           <div className="verification-success">
-
             ✓ {message}
-
           </div>
-
         )}
-
 
         {error && (
-
           <div className="verification-error">
-
             ⚠ {error}
-
           </div>
-
         )}
-
 
         {/* =================================================
             APPLICATIONS
         ================================================= */}
 
         <section className="verification-section">
-
 
           <div className="verification-section-heading">
 
@@ -353,12 +289,16 @@ function VerificationDashboard() {
 
             </div>
 
-            <p>
-              Review and verify customer applications
-            </p>
+            <button
+              type="button"
+              onClick={loadApplications}
+              className="verification-refresh-btn"
+              disabled={loading}
+            >
+              ↻ Refresh
+            </button>
 
           </div>
-
 
           {/* =================================================
               LOADING
@@ -382,9 +322,7 @@ function VerificationDashboard() {
 
             </div>
 
-
           ) : applications.length === 0 ? (
-
 
             /* =================================================
                EMPTY
@@ -406,9 +344,7 @@ function VerificationDashboard() {
 
             </div>
 
-
           ) : (
-
 
             /* =================================================
                APPLICATION GRID
@@ -416,218 +352,234 @@ function VerificationDashboard() {
 
             <div className="verification-grid">
 
-              {applications.map((application) => (
+              {applications.map((application) => {
 
-                <div
-                  className="verification-card"
-                  key={application.applicationId}
-                >
+                const applicationId =
+                  application.applicationId;
 
+                const isProcessing =
+                  processingId === applicationId;
 
-                  {/* =================================================
-                      CARD HEADER
-                  ================================================= */}
+                return (
 
-                  <div className="verification-card-header">
+                  <div
+                    className="verification-card"
+                    key={applicationId}
+                  >
 
-                    <div className="verification-application-id">
+                    {/* =================================================
+                        CARD HEADER
+                    ================================================= */}
 
-                      <span>
-                        APPLICATION
-                      </span>
+                    <div className="verification-card-header">
 
-                      <strong>
-                        #{application.applicationId}
-                      </strong>
+                      <div>
+                        <span>
+                          APPLICATION ID
+                        </span>
+
+                        <h3>
+                          #{applicationId}
+                        </h3>
+                      </div>
+
+                      <div className="verification-status-badge">
+                        {displayValue(
+                          application.applicationStatus
+                        )}
+                      </div>
 
                     </div>
 
+                    {/* =================================================
+                        CUSTOMER DETAILS
+                    ================================================= */}
 
-                    <span
-                      className={
-                        application.applicationStatus === "SUBMITTED"
-                          ? "submitted-badge"
-                          : "submitted-badge"
-                      }
-                    >
+                    <div className="verification-details">
 
-                      ●{" "}
-                      {application.applicationStatus ||
-                        "UNKNOWN"}
+                      <div className="verification-detail-row">
 
-                    </span>
+                        <span>
+                          Customer Name
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.customerName
+                          )}
+                        </strong>
+
+                      </div>
+
+                      <div className="verification-detail-row">
+
+                        <span>
+                          Username
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.username
+                          )}
+                        </strong>
+
+                      </div>
+
+                      <div className="verification-detail-row">
+
+                        <span>
+                          Email
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.email
+                          )}
+                        </strong>
+
+                      </div>
+
+                      <div className="verification-detail-row">
+
+                        <span>
+                          Phone
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.phone
+                          )}
+                        </strong>
+
+                      </div>
+
+                      <div className="verification-detail-row">
+
+                        <span>
+                          Account Number
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.accountNumber
+                          )}
+                        </strong>
+
+                      </div>
+
+                      <div className="verification-detail-row">
+
+                        <span>
+                          PAN
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.pan
+                          )}
+                        </strong>
+
+                      </div>
+
+                      <div className="verification-detail-row">
+
+                        <span>
+                          Aadhaar
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.aadhaar
+                          )}
+                        </strong>
+
+                      </div>
+
+                      <div className="verification-detail-row">
+
+                        <span>
+                          Application Status
+                        </span>
+
+                        <strong>
+                          {displayValue(
+                            application.applicationStatus
+                          )}
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+                    {/* =================================================
+                        VERIFIED / OTHER STATUS
+                    ================================================= */}
+
+                    {application.applicationStatus !==
+                      "SUBMITTED" && (
+
+                      <div className="verification-status-message">
+
+                        Application is{" "}
+
+                        <strong>
+                          {application.applicationStatus}
+                        </strong>
+
+                      </div>
+
+                    )}
+
+                    {/* =================================================
+                        ACTION BUTTONS
+                    ================================================= */}
+
+                    {application.applicationStatus ===
+                      "SUBMITTED" && (
+
+                      <div className="verification-actions">
+
+                        <button
+                          type="button"
+                          className="verification-reject-btn"
+                          disabled={isProcessing}
+                          onClick={() =>
+                            handleVerify(
+                              applicationId,
+                              false
+                            )
+                          }
+                        >
+                          {isProcessing
+                            ? "Processing..."
+                            : "✕ Reject"}
+                        </button>
+
+                        <button
+                          type="button"
+                          className="verification-approve-btn"
+                          disabled={isProcessing}
+                          onClick={() =>
+                            handleVerify(
+                              applicationId,
+                              true
+                            )
+                          }
+                        >
+                          {isProcessing
+                            ? "Processing..."
+                            : "✓ Verify"}
+                        </button>
+
+                      </div>
+
+                    )}
 
                   </div>
 
+                );
 
-                  <div className="verification-divider"></div>
-
-
-                  {/* =================================================
-                      DETAILS
-                  ================================================= */}
-
-                  <div className="verification-details">
-
-
-                    <div className="verification-detail">
-
-                      <span>
-                        Customer
-                      </span>
-
-                      <strong>
-                        {application.customer?.fullName ||
-                          "N/A"}
-                      </strong>
-
-                    </div>
-
-
-                    <div className="verification-detail">
-
-                      <span>
-                        Account Type
-                      </span>
-
-                      <strong>
-                        {application.accountType ||
-                          "N/A"}
-                      </strong>
-
-                    </div>
-
-
-                    <div className="verification-detail">
-
-                      <span>
-                        Branch
-                      </span>
-
-                      <strong>
-                        {application.branch?.branchName ||
-                          application.branch?.name ||
-                          "N/A"}
-                      </strong>
-
-                    </div>
-
-
-                    <div className="verification-detail">
-
-                      <span>
-                        Status
-                      </span>
-
-                      <strong className="submitted-text">
-
-                        {application.applicationStatus ||
-                          "N/A"}
-
-                      </strong>
-
-                    </div>
-
-
-                    <div className="verification-detail">
-
-                      <span>
-                        Created Date
-                      </span>
-
-                      <strong>
-
-                        {application.createdAt
-                          ? new Date(
-                              application.createdAt
-                            ).toLocaleDateString()
-                          : "N/A"}
-
-                      </strong>
-
-                    </div>
-
-
-                    <div className="verification-detail">
-
-                      <span>
-                        Application ID
-                      </span>
-
-                      <strong>
-                        #{application.applicationId}
-                      </strong>
-
-                    </div>
-
-                  </div>
-
-
-                  {/* =================================================
-                      ACTIONS
-                  ================================================= */}
-
-                  {application.applicationStatus ===
-                    "SUBMITTED" && (
-
-                    <div className="verification-actions">
-
-                      <button
-                        className="verify-button"
-                        onClick={() =>
-                          handleVerify(
-                            application.applicationId,
-                            true
-                          )
-                        }
-                      >
-
-                        ✓ Verify
-
-                      </button>
-
-
-                      <button
-                        className="reject-verification-button"
-                        onClick={() =>
-                          handleVerify(
-                            application.applicationId,
-                            false
-                          )
-                        }
-                      >
-
-                        ✕ Reject
-
-                      </button>
-
-                    </div>
-
-                  )}
-
-
-                  {/* =================================================
-                      VERIFIED / OTHER STATUS
-                  ================================================= */}
-
-                  {application.applicationStatus !==
-                    "SUBMITTED" && (
-
-                    <div className="verification-status-message">
-
-                      Application is{" "}
-
-                      <strong>
-                        {application.applicationStatus}
-                      </strong>
-
-                    </div>
-
-                  )}
-
-                </div>
-
-              ))}
+              })}
 
             </div>
 
@@ -635,16 +587,13 @@ function VerificationDashboard() {
 
         </section>
 
-
         {/* =================================================
             FOOTER
         ================================================= */}
 
         <footer className="verification-footer">
 
-          <span>
-            🔒
-          </span>
+          <span>🔒</span>
 
           <span>
             Secure Document Verification
@@ -663,7 +612,6 @@ function VerificationDashboard() {
       </main>
 
     </div>
-
   );
 }
 

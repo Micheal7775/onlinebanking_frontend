@@ -167,11 +167,10 @@ const handleLogout = () => {
 
       <div className="brand-content">
         <h2>Canda Banking</h2>
-        <span>Secure Banking</span>
+        <span>Secure Bank</span>
       </div>
 
     </div>
-
 
     {/* NAVIGATION */}
 
@@ -354,13 +353,6 @@ const handleLogout = () => {
             👤 My Profile
           </button>
 
-          <button
-            onClick={() =>
-              navigate("/customer/balance")
-            }
-          >
-            💰 My Account
-          </button>
 
           <button
             onClick={() =>

@@ -244,36 +244,6 @@ function StaffDashboard() {
                 DEPOSIT MONEY
             ================================================= */}
 
-            <button
-              className="staff-operation-card"
-              onClick={() =>
-                navigate("/staff/deposit")
-              }
-            >
-
-              <div className="staff-operation-icon">
-                💰
-              </div>
-
-
-              <div className="staff-operation-content">
-
-                <h3>
-                  Deposit Money
-                </h3>
-
-                <p>
-                  Deposit money into an existing
-                  customer account.
-                </p>
-
-                <span>
-                  Deposit Money →
-                </span>
-
-              </div>
-
-            </button>
 
 
           </div>
@@ -285,55 +255,9 @@ function StaffDashboard() {
             QUICK INFORMATION
         ================================================= */}
 
-        <section className="staff-info-section">
+        
 
-
-          <div className="staff-info-card">
-
-            <div className="staff-info-icon">
-              🛡️
-            </div>
-
-            <div>
-
-              <h3>
-                Secure Staff Access
-              </h3>
-
-              <p>
-                Customer operations are protected by
-                role-based authorization.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div className="staff-info-card">
-
-            <div className="staff-info-icon">
-              📋
-            </div>
-
-            <div>
-
-              <h3>
-                Customer Management
-              </h3>
-
-              <p>
-                Use Manage Customers to view, edit
-                and delete registered customers.
-              </p>
-
-            </div>
-
-          </div>
-
-
-        </section>
-
+          
 
       </main>
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import {
   getVerifiedApplications,
@@ -13,22 +12,30 @@ import { issueDebitCard } from "../services/cardService";
 import "./ManagerDashboard.css";
 
 function ManagerDashboard() {
-  const navigate = useNavigate();
 
   // =========================================
   // APPLICATIONS
   // =========================================
 
   const [applications, setApplications] = useState([]);
+
   const [message, setMessage] = useState("");
+
   const [error, setError] = useState("");
+
+  const [processingApplicationId, setProcessingApplicationId] =
+    useState(null);
+
 
   // =========================================
   // ACCOUNTS
   // =========================================
 
   const [accounts, setAccounts] = useState([]);
-  const [accountsLoading, setAccountsLoading] = useState(false);
+
+  const [accountsLoading, setAccountsLoading] =
+    useState(false);
+
 
   // =========================================
   // ACCOUNT SEARCH
@@ -43,6 +50,7 @@ function ManagerDashboard() {
   const [searchLoading, setSearchLoading] =
     useState(false);
 
+
   // =========================================
   // CARD CREATION
   // =========================================
@@ -56,57 +64,84 @@ function ManagerDashboard() {
   const [createdCard, setCreatedCard] =
     useState(null);
 
+
   // =========================================
-  // LOAD APPLICATIONS
+  // LOAD VERIFIED APPLICATIONS
   // =========================================
 
   const loadApplications = async () => {
+
     try {
-      const data = await getVerifiedApplications();
+
+      const data =
+        await getVerifiedApplications();
 
       setApplications(
-        Array.isArray(data) ? data : []
+        Array.isArray(data)
+          ? data
+          : []
       );
+
     } catch (error) {
+
       console.error(
         "Application Error:",
         error
       );
 
-      setError(error.message);
+      setError(
+        error.message ||
+        "Failed to load verified applications"
+      );
     }
   };
+
 
   // =========================================
   // LOAD ALL CUSTOMER ACCOUNTS
   // =========================================
 
   const loadAccounts = async () => {
+
     try {
+
       setAccountsLoading(true);
 
-      const data = await getAllAccounts();
+      const data =
+        await getAllAccounts();
 
       setAccounts(
-        Array.isArray(data) ? data : []
+        Array.isArray(data)
+          ? data
+          : []
       );
+
     } catch (error) {
+
       console.error(
         "Account Loading Error:",
         error
       );
 
-      setError(error.message);
+      setError(
+        error.message ||
+        "Failed to load accounts"
+      );
+
     } finally {
+
       setAccountsLoading(false);
+
     }
   };
 
+
   // =========================================
-  // LOAD OVERALL DATA
+  // LOAD ALL DATA
   // =========================================
 
   const loadOverallData = async () => {
+
     setError("");
 
     await Promise.all([
@@ -115,19 +150,145 @@ function ManagerDashboard() {
     ]);
   };
 
+
   // =========================================
   // INITIAL LOAD
   // =========================================
 
   useEffect(() => {
+
     loadOverallData();
+
   }, []);
 
+
   // =========================================
-  // SEARCH CUSTOMER BY ACCOUNT NUMBER
+  // APPROVE VERIFIED APPLICATION
+  // =========================================
+
+  const handleApprove = async (
+    applicationId
+  ) => {
+
+    setMessage("");
+    setError("");
+
+    setProcessingApplicationId(
+      applicationId
+    );
+
+    try {
+
+      // =====================================
+      // STEP 1
+      // APPROVE APPLICATION
+      // =====================================
+
+      await approveApplication(
+        applicationId,
+        true
+      );
+
+
+      // =====================================
+      // STEP 2
+      // CREATE CUSTOMER ACCOUNT
+      // =====================================
+
+      const account =
+        await createAccount(
+          applicationId
+        );
+
+
+      setMessage(
+        `Application approved successfully. Account created successfully. Account Number: ${
+          account?.accountNumber ||
+          "Generated"
+        }`
+      );
+
+
+      // Refresh applications + accounts
+
+      await loadOverallData();
+
+    } catch (error) {
+
+      console.error(
+        "Approval Error:",
+        error
+      );
+
+      setError(
+        error.message ||
+        "Failed to approve application"
+      );
+
+    } finally {
+
+      setProcessingApplicationId(
+        null
+      );
+    }
+  };
+
+
+  // =========================================
+  // REJECT VERIFIED APPLICATION
+  // =========================================
+
+  const handleReject = async (
+    applicationId
+  ) => {
+
+    setMessage("");
+    setError("");
+
+    setProcessingApplicationId(
+      applicationId
+    );
+
+    try {
+
+      await approveApplication(
+        applicationId,
+        false
+      );
+
+      setMessage(
+        "Application rejected successfully."
+      );
+
+      await loadOverallData();
+
+    } catch (error) {
+
+      console.error(
+        "Reject Error:",
+        error
+      );
+
+      setError(
+        error.message ||
+        "Failed to reject application"
+      );
+
+    } finally {
+
+      setProcessingApplicationId(
+        null
+      );
+    }
+  };
+
+
+  // =========================================
+  // SEARCH CUSTOMER
   // =========================================
 
   const handleSearchAccount = async () => {
+
     setMessage("");
     setError("");
     setSearchedAccount(null);
@@ -136,6 +297,7 @@ function ManagerDashboard() {
       searchAccountNumber.trim();
 
     if (!searchValue) {
+
       setError(
         "Please enter account number"
       );
@@ -144,19 +306,22 @@ function ManagerDashboard() {
     }
 
     try {
+
       setSearchLoading(true);
 
-      const foundAccount = accounts.find(
-        (account) =>
-          String(
-            account.accountNumber || ""
-          )
-            .trim()
-            .toLowerCase() ===
-          searchValue.toLowerCase()
-      );
+      const foundAccount =
+        accounts.find(
+          (account) =>
+            String(
+              account.accountNumber || ""
+            )
+              .trim()
+              .toLowerCase() ===
+            searchValue.toLowerCase()
+        );
 
       if (!foundAccount) {
+
         setError(
           "Account not found"
         );
@@ -171,108 +336,56 @@ function ManagerDashboard() {
       setMessage(
         "Customer account found successfully."
       );
+
     } catch (error) {
+
       console.error(
         "Account Search Error:",
         error
       );
 
-      setError(error.message);
+      setError(
+        error.message ||
+        "Account search failed"
+      );
+
     } finally {
+
       setSearchLoading(false);
     }
   };
+
 
   // =========================================
   // CLEAR SEARCH
   // =========================================
 
   const handleClearSearch = () => {
+
     setSearchAccountNumber("");
+
     setSearchedAccount(null);
+
     setMessage("");
+
     setError("");
   };
 
-  // =========================================
-  // APPROVE APPLICATION + CREATE ACCOUNT
-  // =========================================
-
-  const handleApprove = async (
-    applicationId
-  ) => {
-    setMessage("");
-    setError("");
-
-    try {
-      await approveApplication(
-        applicationId,
-        true
-      );
-
-      const account =
-        await createAccount(
-          applicationId
-        );
-
-      setMessage(
-        `Application approved. Account created successfully. Account Number: ${
-          account.accountNumber
-        }`
-      );
-
-      await loadOverallData();
-    } catch (error) {
-      console.error(
-        "Approval Error:",
-        error
-      );
-
-      setError(error.message);
-    }
-  };
-
-  // =========================================
-  // REJECT APPLICATION
-  // =========================================
-
-  const handleReject = async (
-    applicationId
-  ) => {
-    setMessage("");
-    setError("");
-
-    try {
-      await approveApplication(
-        applicationId,
-        false
-      );
-
-      setMessage(
-        "Application rejected successfully!"
-      );
-
-      await loadApplications();
-    } catch (error) {
-      console.error(
-        "Reject Error:",
-        error
-      );
-
-      setError(error.message);
-    }
-  };
 
   // =========================================
   // CREATE DEBIT CARD
   // =========================================
 
   const handleCreateCard = async () => {
+
     setMessage("");
+
     setError("");
+
     setCreatedCard(null);
 
     if (!accountNumber.trim()) {
+
       setError(
         "Please enter account number"
       );
@@ -281,6 +394,7 @@ function ManagerDashboard() {
     }
 
     try {
+
       setCardLoading(true);
 
       const card =
@@ -295,35 +409,58 @@ function ManagerDashboard() {
       );
 
       setAccountNumber("");
+
     } catch (error) {
+
       console.error(
         "Card Creation Error:",
         error
       );
 
-      setError(error.message);
+      setError(
+        error.message ||
+        "Failed to create debit card"
+      );
+
     } finally {
+
       setCardLoading(false);
     }
   };
+
 
   // =========================================
   // LOGOUT
   // =========================================
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    localStorage.removeItem("role");
+
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "username"
+    );
+
+    localStorage.removeItem(
+      "role"
+    );
+
     localStorage.removeItem(
       "customerAccount"
     );
 
-    window.location.replace("/login");
+    window.location.replace(
+      "/login"
+    );
   };
 
+
   return (
+
     <div className="manager-dashboard">
+
 
       {/* =========================================
           BACKGROUND
@@ -332,6 +469,7 @@ function ManagerDashboard() {
       <div className="manager-bg-circle manager-circle-one"></div>
 
       <div className="manager-bg-circle manager-circle-two"></div>
+
 
       {/* =========================================
           HEADER
@@ -346,12 +484,15 @@ function ManagerDashboard() {
           </div>
 
           <div>
+
             <h2>
-            Canda Banking
+              Canda Banking
             </h2>
+
           </div>
 
         </div>
+
 
         <div className="manager-header-right">
 
@@ -362,32 +503,40 @@ function ManagerDashboard() {
             </div>
 
             <div>
+
               <strong>
                 Bank Manager
               </strong>
 
-             
             </div>
 
           </div>
+
 
           <button
             className="manager-logout"
             onClick={handleLogout}
           >
-            <span>↪</span>
+
+            <span>
+              ↪
+            </span>
+
             Logout
+
           </button>
 
         </div>
 
       </header>
 
+
       {/* =========================================
           MAIN
       ========================================= */}
 
       <main className="manager-main">
+
 
         {/* =========================================
             WELCOME
@@ -397,18 +546,17 @@ function ManagerDashboard() {
 
           <div>
 
-          
-
             <h1>
               Manager Dashboard
             </h1>
 
             <p>
-              Review applications and manage
-              customer accounts.
+              Review verified applications and
+              manage customer accounts.
             </p>
 
           </div>
+
 
           <div className="manager-security-badge">
 
@@ -420,31 +568,13 @@ function ManagerDashboard() {
 
         </section>
 
+
         {/* =========================================
             STATS
         ========================================= */}
 
         <section className="manager-stats">
 
-          <div className="manager-stat-card">
-
-            <div className="manager-stat-icon">
-              📋
-            </div>
-
-            <div>
-
-              <span>
-                Applications
-              </span>
-
-              <strong>
-                {applications.length}
-              </strong>
-
-            </div>
-
-          </div>
 
           <div className="manager-stat-card">
 
@@ -468,28 +598,428 @@ function ManagerDashboard() {
 
         </section>
 
+
         {/* =========================================
             SUCCESS MESSAGE
         ========================================= */}
 
         {message && (
+
           <div className="manager-success">
+
             ✓ {message}
+
           </div>
+
         )}
+
 
         {/* =========================================
             ERROR MESSAGE
         ========================================= */}
 
         {error && (
+
           <div className="manager-error">
+
             ⚠ {error}
+
           </div>
+
         )}
 
+
         {/* =========================================
-            SEARCH CUSTOMER
+            VERIFIED APPLICATIONS
+        ========================================= */}
+
+        <section className="applications-section">
+
+
+          <div className="applications-heading">
+
+            <div>
+
+              <span>
+                APPLICATION MANAGEMENT
+              </span>
+
+              <h2>
+                Verified Applications
+              </h2>
+
+            </div>
+
+            <p>
+              Approve or reject applications verified
+              by document verification staff.
+            </p>
+
+          </div>
+
+
+          {applications.length === 0 ? (
+
+            <div className="empty-applications">
+
+              <div className="empty-icon">
+                📂
+              </div>
+
+              <h3>
+              ALL applications  Verified Applications approve or reject 
+              </h3>
+
+              <p>
+                There are currently no verified
+                applications waiting for approval.
+              </p>
+
+            </div>
+
+          ) : (
+
+            <div className="application-grid">
+
+              {applications.map(
+                (application) => {
+
+                  const status =
+                    String(
+                      application.applicationStatus ||
+                      ""
+                    )
+                      .trim()
+                      .toUpperCase();
+
+                  const isProcessing =
+                    processingApplicationId ===
+                    application.applicationId;
+
+
+                  return (
+
+                    <div
+                      className="application-card"
+                      key={
+                        application.applicationId
+                      }
+                    >
+
+
+                      {/* =================================
+                          HEADER
+                      ================================= */}
+
+                      <div className="application-card-header">
+
+
+                        <div className="application-id">
+
+                          <span>
+                            APPLICATION
+                          </span>
+
+                          <strong>
+
+                            #
+                            {
+                              application.applicationId
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                        <span className="verified-badge">
+
+                          {status}
+
+                        </span>
+
+                      </div>
+
+
+                      <div className="application-divider"></div>
+
+
+                      {/* =================================
+                          DETAILS
+                      ================================= */}
+
+                      <div className="application-details">
+
+
+                        {/* CUSTOMER */}
+
+                        <div className="application-detail">
+
+                          <span>
+                            Customer
+                          </span>
+
+                          <strong>
+
+                            {
+                              application.customer
+                                ?.fullName ||
+                              "N/A"
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                        {/* USERNAME */}
+
+                        <div className="application-detail">
+
+                          <span>
+                            Username
+                          </span>
+
+                          <strong>
+
+                            {
+                              application.customer
+                                ?.username ||
+
+                              application.customer
+                                ?.user
+                                ?.username ||
+
+                              "N/A"
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                        {/* ACCOUNT TYPE */}
+
+                        <div className="application-detail">
+
+                          <span>
+                            Account Type
+                          </span>
+
+                          <strong>
+
+                            {
+                              application.accountType ||
+                              "N/A"
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                        {/* BRANCH */}
+
+                        <div className="application-detail">
+
+                          <span>
+                            Branch
+                          </span>
+
+                          <strong>
+
+                            {
+                              application.branch
+                                ?.branchName ||
+
+                              application.branch
+                                ?.name ||
+
+                              "N/A"
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                        {/* STATUS */}
+
+                        <div className="application-detail">
+
+                          <span>
+                            Status
+                          </span>
+
+                          <strong className="status-text">
+
+                            {
+                              application.applicationStatus ||
+                              "N/A"
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                        {/* CREATED DATE */}
+
+                        <div className="application-detail">
+
+                          <span>
+                            Created Date
+                          </span>
+
+                          <strong>
+
+                            {
+                              application.createdAt
+
+                                ? new Date(
+                                    application.createdAt
+                                  ).toLocaleDateString()
+
+                                : "N/A"
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                        {/* APPLICATION ID */}
+
+                        <div className="application-detail">
+
+                          <span>
+                            Application ID
+                          </span>
+
+                          <strong>
+
+                            #
+                            {
+                              application.applicationId
+                            }
+
+                          </strong>
+
+                        </div>
+
+
+                      </div>
+
+
+                      {/* =================================
+                          MANAGER ACTIONS
+                          VERIFIED → APPROVE / REJECT
+                      ================================= */}
+
+                      {status === "VERIFIED" && (
+
+                        <div className="verification-actions">
+
+
+                          <button
+                            type="button"
+                            className="approve-button"
+                            disabled={
+                              isProcessing
+                            }
+                            onClick={() =>
+                              handleApprove(
+                                application.applicationId
+                              )
+                            }
+                          >
+
+                            {isProcessing
+                              ? "Processing..."
+                              : "✓ Approve"}
+
+                          </button>
+
+
+                          <button
+                            type="button"
+                            className="reject-verification-button"
+                            disabled={
+                              isProcessing
+                            }
+                            onClick={() =>
+                              handleReject(
+                                application.applicationId
+                              )
+                            }
+                          >
+
+                            {isProcessing
+                              ? "Processing..."
+                              : "✕ Reject"}
+
+                          </button>
+
+
+                        </div>
+
+                      )}
+
+
+                      {/* =================================
+                          APPROVED
+                      ================================= */}
+
+                      {status === "APPROVED" && (
+
+                        <div className="application-actions">
+
+                          <strong className="status-text">
+
+                            ✓ Application Approved
+
+                          </strong>
+
+                        </div>
+
+                      )}
+
+
+                      {/* =================================
+                          REJECTED
+                      ================================= */}
+
+                      {status === "REJECTED" && (
+
+                        <div className="application-actions">
+
+                          <strong className="status-text">
+
+                            ✕ Application Rejected
+
+                          </strong>
+
+                        </div>
+
+                      )}
+
+
+                    </div>
+
+                  );
+
+                }
+              )}
+
+            </div>
+
+          )}
+
+        </section>
+
+
+        {/* =========================================
+            CUSTOMER SEARCH
         ========================================= */}
 
         <section className="applications-section">
@@ -498,8 +1028,13 @@ function ManagerDashboard() {
 
             <div>
 
-             
+              <span>
+                CUSTOMER MANAGEMENT
+              </span>
 
+              <h2>
+                Find Customer
+              </h2>
 
             </div>
 
@@ -508,6 +1043,7 @@ function ManagerDashboard() {
             </p>
 
           </div>
+
 
           <div
             className="application-card"
@@ -520,6 +1056,7 @@ function ManagerDashboard() {
             <div className="application-card-header">
 
               <div className="application-id">
+
                 <strong>
                   Find Customer
                 </strong>
@@ -532,7 +1069,9 @@ function ManagerDashboard() {
 
             </div>
 
+
             <div className="application-divider"></div>
+
 
             <div
               style={{
@@ -547,34 +1086,46 @@ function ManagerDashboard() {
                   fontWeight: "600",
                 }}
               >
+
                 Account Number
+
               </label>
+
 
               <input
                 type="text"
-                value={searchAccountNumber}
+                value={
+                  searchAccountNumber
+                }
                 onChange={(e) =>
                   setSearchAccountNumber(
                     e.target.value
                   )
                 }
                 onKeyDown={(e) => {
+
                   if (e.key === "Enter") {
+
                     handleSearchAccount();
+
                   }
+
                 }}
                 placeholder="Enter account number"
                 style={{
                   width: "100%",
                   padding: "13px",
                   borderRadius: "8px",
-                  border: "1px solid #ccc",
-                  boxSizing: "border-box",
+                  border:
+                    "1px solid #ccc",
+                  boxSizing:
+                    "border-box",
                   fontSize: "15px",
                 }}
               />
 
             </div>
+
 
             <div
               className="application-actions"
@@ -592,12 +1143,16 @@ function ManagerDashboard() {
                 }
                 disabled={searchLoading}
               >
+
                 {searchLoading
                   ? "Searching..."
                   : "🔍 Search"}
+
               </button>
 
+
               {searchedAccount && (
+
                 <button
                   type="button"
                   className="reject-button"
@@ -605,15 +1160,15 @@ function ManagerDashboard() {
                     handleClearSearch
                   }
                 >
+
                   Clear
+
                 </button>
+
               )}
 
             </div>
 
-            {/* =====================================
-                SEARCH RESULT
-            ===================================== */}
 
             {searchedAccount && (
 
@@ -631,12 +1186,14 @@ function ManagerDashboard() {
                     marginBottom: "20px",
                   }}
                 >
+
                   ✓ Customer Found
+
                 </h3>
+
 
                 <div className="application-details">
 
-                  {/* CUSTOMER NAME */}
 
                   <div className="application-detail">
 
@@ -645,19 +1202,22 @@ function ManagerDashboard() {
                     </span>
 
                     <strong>
+
                       {
                         searchedAccount
                           .customer
                           ?.fullName ||
+
                         searchedAccount
                           .customerName ||
+
                         "N/A"
                       }
+
                     </strong>
 
                   </div>
 
-                  {/* USERNAME */}
 
                   <div className="application-detail">
 
@@ -666,23 +1226,27 @@ function ManagerDashboard() {
                     </span>
 
                     <strong>
+
                       {
                         searchedAccount
                           .customer
                           ?.username ||
+
                         searchedAccount
                           .username ||
+
                         searchedAccount
                           .customer
                           ?.user
                           ?.username ||
+
                         "N/A"
                       }
+
                     </strong>
 
                   </div>
 
-                  {/* ACCOUNT NUMBER */}
 
                   <div className="application-detail">
 
@@ -691,16 +1255,17 @@ function ManagerDashboard() {
                     </span>
 
                     <strong>
+
                       {
                         searchedAccount
                           .accountNumber ||
                         "N/A"
                       }
+
                     </strong>
 
                   </div>
 
-                  {/* ACCOUNT TYPE */}
 
                   <div className="application-detail">
 
@@ -709,16 +1274,17 @@ function ManagerDashboard() {
                     </span>
 
                     <strong>
+
                       {
                         searchedAccount
                           .accountType ||
                         "N/A"
                       }
+
                     </strong>
 
                   </div>
 
-                  {/* BALANCE */}
 
                   <div className="application-detail">
 
@@ -727,17 +1293,19 @@ function ManagerDashboard() {
                     </span>
 
                     <strong>
+
                       ₹{" "}
+
                       {
                         searchedAccount
                           .balance ??
                         "0.00"
                       }
+
                     </strong>
 
                   </div>
 
-                  {/* STATUS */}
 
                   <div className="application-detail">
 
@@ -746,14 +1314,17 @@ function ManagerDashboard() {
                     </span>
 
                     <strong className="status-text">
+
                       {
                         searchedAccount
                           .status ||
                         "ACTIVE"
                       }
+
                     </strong>
 
                   </div>
+
 
                 </div>
 
@@ -764,6 +1335,7 @@ function ManagerDashboard() {
           </div>
 
         </section>
+
 
         {/* =========================================
             DEBIT CARD
@@ -790,6 +1362,7 @@ function ManagerDashboard() {
             </p>
 
           </div>
+
 
           <div
             className="application-card"
@@ -819,7 +1392,9 @@ function ManagerDashboard() {
 
             </div>
 
+
             <div className="application-divider"></div>
+
 
             <div
               style={{
@@ -834,8 +1409,11 @@ function ManagerDashboard() {
                   fontWeight: "600",
                 }}
               >
+
                 Customer Account Number
+
               </label>
+
 
               <input
                 type="text"
@@ -850,13 +1428,16 @@ function ManagerDashboard() {
                   width: "100%",
                   padding: "13px",
                   borderRadius: "8px",
-                  border: "1px solid #ccc",
-                  boxSizing: "border-box",
+                  border:
+                    "1px solid #ccc",
+                  boxSizing:
+                    "border-box",
                   fontSize: "15px",
                 }}
               />
 
             </div>
+
 
             <div className="application-actions">
 
@@ -867,12 +1448,15 @@ function ManagerDashboard() {
                 }
                 disabled={cardLoading}
               >
+
                 {cardLoading
                   ? "Creating Card..."
                   : "💳 Create Debit Card"}
+
               </button>
 
             </div>
+
 
             {createdCard && (
 
@@ -890,31 +1474,43 @@ function ManagerDashboard() {
                 </h3>
 
                 <p>
+
                   <strong>
                     Card Number:
                   </strong>{" "}
+
                   {createdCard.cardNumber}
+
                 </p>
 
                 <p>
+
                   <strong>
                     Card Type:
                   </strong>{" "}
+
                   {createdCard.cardType}
+
                 </p>
 
                 <p>
+
                   <strong>
                     Status:
                   </strong>{" "}
+
                   {createdCard.status}
+
                 </p>
 
                 <p>
+
                   <strong>
                     Expiry Date:
                   </strong>{" "}
+
                   {createdCard.expiryDate}
+
                 </p>
 
               </div>
@@ -925,222 +1521,6 @@ function ManagerDashboard() {
 
         </section>
 
-        {/* =========================================
-            VERIFIED APPLICATIONS
-        ========================================= */}
-
-        <section className="applications-section">
-
-          <div className="applications-heading">
-
-            <div>
-
-              <span>
-                ACCOUNT MANAGEMENT
-              </span>
-
-              <h2>
-                Verified Applications
-              </h2>
-
-            </div>
-
-            <p>
-              Review and process customer applications
-            </p>
-
-          </div>
-
-          {applications.length === 0 ? (
-
-            <div className="empty-applications">
-
-              <div className="empty-icon">
-                📂
-              </div>
-
-              <h3>
-                No Verified Applications
-              </h3>
-
-              <p>
-                There are currently no applications
-                waiting for manager approval.
-              </p>
-
-            </div>
-
-          ) : (
-
-            <div className="application-grid">
-
-              {applications.map(
-                (application) => {
-
-                  const status =
-                    String(
-                      application.applicationStatus ||
-                      ""
-                    )
-                      .trim()
-                      .toUpperCase();
-
-                  return (
-
-                    <div
-                      className="application-card"
-                      key={
-                        application.applicationId
-                      }
-                    >
-
-                      <div className="application-card-header">
-
-                        <div className="application-id">
-
-                          <span>
-                            APPLICATION
-                          </span>
-
-                          <strong>
-                            #
-                            {
-                              application.applicationId
-                            }
-                          </strong>
-
-                        </div>
-
-                        <span className="verified-badge">
-                          {application.applicationStatus ||
-                            "APPLICATION"}
-                        </span>
-
-                      </div>
-
-                      <div className="application-divider"></div>
-
-                      <div className="application-details">
-
-                        <div className="application-detail">
-
-                          <span>
-                            Customer
-                          </span>
-
-                          <strong>
-                            {
-                              application.customer
-                                ?.fullName ||
-                              "N/A"
-                            }
-                          </strong>
-
-                        </div>
-
-                        <div className="application-detail">
-
-                          <span>
-                            Account Type
-                          </span>
-
-                          <strong>
-                            {
-                              application.accountType ||
-                              "N/A"
-                            }
-                          </strong>
-
-                        </div>
-
-                        <div className="application-detail">
-
-                          <span>
-                            Status
-                          </span>
-
-                          <strong className="status-text">
-                            {
-                              application.applicationStatus ||
-                              "N/A"
-                            }
-                          </strong>
-
-                        </div>
-
-                      </div>
-
-                      {/* PENDING */}
-
-                      {status === "PENDING" && (
-
-                        <div className="application-actions">
-
-                          <button
-                            className="approve-button"
-                            onClick={() =>
-                              handleApprove(
-                                application.applicationId
-                              )
-                            }
-                          >
-                            ✓ Approve
-                          </button>
-
-                          <button
-                            className="reject-button"
-                            onClick={() =>
-                              handleReject(
-                                application.applicationId
-                              )
-                            }
-                          >
-                            ✕ Reject
-                          </button>
-
-                        </div>
-
-                      )}
-
-                      {/* APPROVED */}
-
-                      {status === "APPROVED" && (
-
-                        <div className="application-actions">
-
-                          <strong className="status-text">
-                            ✓ Application Approved
-                          </strong>
-
-                        </div>
-
-                      )}
-
-                      {/* REJECTED */}
-
-                      {status === "REJECTED" && (
-
-                        <div className="application-actions">
-
-                          <strong className="status-text">
-                            ✕ Application Rejected
-                          </strong>
-
-                        </div>
-
-                      )}
-
-                    </div>
-
-                  );
-                }
-              )}
-
-            </div>
-
-          )}
-
-        </section>
 
         {/* =========================================
             ALL CUSTOMER ACCOUNTS
@@ -1167,6 +1547,7 @@ function ManagerDashboard() {
             </p>
 
           </div>
+
 
           {accountsLoading ? (
 
@@ -1220,7 +1601,6 @@ function ManagerDashboard() {
                     }
                   >
 
-                    {/* ACCOUNT HEADER */}
 
                     <div className="application-card-header">
 
@@ -1231,29 +1611,35 @@ function ManagerDashboard() {
                         </span>
 
                         <strong>
+
                           #
                           {
                             account.accountNumber ||
                             "N/A"
                           }
+
                         </strong>
 
                       </div>
 
+
                       <span className="verified-badge">
-                        {account.status ||
-                          "ACTIVE"}
+
+                        {
+                          account.status ||
+                          "ACTIVE"
+                        }
+
                       </span>
 
                     </div>
 
+
                     <div className="application-divider"></div>
 
-                    {/* ACCOUNT DETAILS */}
 
                     <div className="application-details">
 
-                      {/* CUSTOMER NAME */}
 
                       <div className="application-detail">
 
@@ -1262,17 +1648,20 @@ function ManagerDashboard() {
                         </span>
 
                         <strong>
+
                           {
                             account.customer
                               ?.fullName ||
+
                             account.customerName ||
+
                             "N/A"
                           }
+
                         </strong>
 
                       </div>
 
-                      {/* USERNAME */}
 
                       <div className="application-detail">
 
@@ -1281,20 +1670,24 @@ function ManagerDashboard() {
                         </span>
 
                         <strong>
+
                           {
                             account.customer
                               ?.username ||
+
                             account.username ||
+
                             account.customer
                               ?.user
                               ?.username ||
+
                             "N/A"
                           }
+
                         </strong>
 
                       </div>
 
-                      {/* ACCOUNT NUMBER */}
 
                       <div className="application-detail">
 
@@ -1303,15 +1696,16 @@ function ManagerDashboard() {
                         </span>
 
                         <strong>
+
                           {
                             account.accountNumber ||
                             "N/A"
                           }
+
                         </strong>
 
                       </div>
 
-                      {/* ACCOUNT TYPE */}
 
                       <div className="application-detail">
 
@@ -1320,15 +1714,16 @@ function ManagerDashboard() {
                         </span>
 
                         <strong>
+
                           {
                             account.accountType ||
                             "N/A"
                           }
+
                         </strong>
 
                       </div>
 
-                      {/* BALANCE */}
 
                       <div className="application-detail">
 
@@ -1337,16 +1732,18 @@ function ManagerDashboard() {
                         </span>
 
                         <strong>
+
                           ₹{" "}
+
                           {
                             account.balance ??
                             "0.00"
                           }
+
                         </strong>
 
                       </div>
 
-                      {/* STATUS */}
 
                       <div className="application-detail">
 
@@ -1355,15 +1752,16 @@ function ManagerDashboard() {
                         </span>
 
                         <strong className="status-text">
+
                           {
                             account.status ||
                             "ACTIVE"
                           }
+
                         </strong>
 
                       </div>
 
-                      {/* ACCOUNT ID */}
 
                       <div className="application-detail">
 
@@ -1372,14 +1770,17 @@ function ManagerDashboard() {
                         </span>
 
                         <strong>
+
                           {
                             account.accountId ||
                             account.id ||
                             "N/A"
                           }
+
                         </strong>
 
                       </div>
+
 
                     </div>
 
@@ -1393,6 +1794,7 @@ function ManagerDashboard() {
           )}
 
         </section>
+
 
         {/* =========================================
             FOOTER
@@ -1418,9 +1820,11 @@ function ManagerDashboard() {
 
         </footer>
 
+
       </main>
 
     </div>
+
   );
 }
 
