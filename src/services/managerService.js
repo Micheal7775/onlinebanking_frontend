@@ -2,7 +2,7 @@ const API_URL =
   "http://13.126.207.99:8080/api/verification/applications";
 
 const ACCOUNT_API_URL =
-  "http://13.126.207.99cmd /c rmdir /s /q .git\rebase-merge:8080/api/manager/accounts";
+  "http://13.126.207.99:8080/api/manager/accounts";
 
 
 // =====================================================
