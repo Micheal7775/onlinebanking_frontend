@@ -1,3 +1,7 @@
+/* =====================================================
+   CUSTOMER DASHBOARD
+===================================================== */
+
 * {
   box-sizing: border-box;
 }
@@ -8,46 +12,58 @@
   color: #111827;
 }
 
-/* =================================
+
+/* =====================================================
    CUSTOMER NAVBAR
-================================= */
+===================================================== */
 
 .customer-navbar {
   width: 100%;
   height: 76px;
-  background: rgba(255, 255, 255, 0.96);
+
+  background: rgba(255, 255, 255, 0.97);
+
   border-bottom: 1px solid #e5e7eb;
+
   position: sticky;
   top: 0;
+
   z-index: 1000;
+
   backdrop-filter: blur(16px);
 }
 
 .navbar-container {
   width: min(1400px, 94%);
   height: 100%;
+
   margin: auto;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  gap: 20px;
 }
 
 
-/* =================================
+/* =====================================================
    BRAND
-================================= */
+===================================================== */
 
 .bank-brand {
   display: flex;
   align-items: center;
+
   gap: 12px;
+
   cursor: pointer;
+
   flex-shrink: 0;
 }
 
 .bank-logo {
-   width: 44px;
+  width: 44px;
   height: 44px;
 
   border-radius: 12px;
@@ -59,44 +75,110 @@
   background: #172033;
   color: #ffffff;
 
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
 
-  box-shadow: 0 5px 14px rgba(23, 32, 51, 0.15);
+  box-shadow:
+    0 5px 14px rgba(23, 32, 51, 0.15);
 }
-  
+
+
+/* =====================================================
+   CURRENT JSX HEADER
+===================================================== */
+
+.customer-header-left {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.customer-logo {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #172033;
+  color: #ffffff;
+
+  font-size: 20px;
+
+  box-shadow:
+    0 5px 14px rgba(23, 32, 51, 0.15);
+
+  flex-shrink: 0;
+}
+
+.customer-header-left h1 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.customer-header-left p {
+  margin: 3px 0 0;
+
+  color: #6b7280;
+
+  font-size: 10px;
+
+  letter-spacing: 0.7px;
+}
+
+
+/* =====================================================
+   OLD BRAND SUPPORT
+===================================================== */
 
 .brand-content h2 {
   margin: 0;
+
   font-size: 17px;
   font-weight: 800;
+
   color: #111827;
 }
 
 .brand-content span {
   display: block;
+
   margin-top: 2px;
 
   font-size: 10px;
+
   color: #6b7280;
+
   letter-spacing: 0.7px;
 }
 
 
-/* =================================
-   MAIN NAV
-================================= */
+/* =====================================================
+   MAIN NAVIGATION
+===================================================== */
 
 .customer-nav {
   display: flex;
   align-items: center;
+
   gap: 4px;
-  margin-left: 35px;
+
+  margin-left: 25px;
   margin-right: auto;
 }
 
 .nav-link {
   border: none;
+
   background: transparent;
 
   padding: 10px 12px;
@@ -112,9 +194,12 @@
 
   display: flex;
   align-items: center;
+
   gap: 5px;
 
   transition: all 0.2s ease;
+
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -124,13 +209,14 @@
 
 .dropdown-trigger span {
   font-size: 14px;
+
   transition: transform 0.2s ease;
 }
 
 
-/* =================================
+/* =====================================================
    DROPDOWN
-================================= */
+===================================================== */
 
 .nav-dropdown,
 .profile-dropdown {
@@ -147,7 +233,7 @@
 
   padding: 7px;
 
-  background: white;
+  background: #ffffff;
 
   border: 1px solid #e5e7eb;
 
@@ -167,15 +253,14 @@
     visibility 0.2s ease;
 }
 
-.nav-dropdown:hover .dropdown-menu,
-.profile-dropdown:hover .profile-menu {
+.nav-dropdown:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
+
   transform: translateY(0);
 }
 
-.nav-dropdown:hover
-.dropdown-trigger span {
+.nav-dropdown:hover .dropdown-trigger span {
   transform: rotate(180deg);
 }
 
@@ -183,6 +268,7 @@
   width: 100%;
 
   border: none;
+
   background: transparent;
 
   padding: 11px 12px;
@@ -203,37 +289,112 @@
 
 .dropdown-menu button:hover {
   background: #f3f4f6;
+
   color: #111827;
 }
 
 
-/* =================================
+/* =====================================================
    RIGHT ACTIONS
-================================= */
+===================================================== */
 
 .navbar-actions {
   display: flex;
-  align-items: right;
+  align-items: center;
+
   gap: 10px;
+
+  flex-shrink: 0;
 }
 
 .nav-divider {
   width: 1px;
   height: 32px;
+
   background: #e5e7eb;
 }
 
 
-/* =================================
+/* =====================================================
+   CUSTOMER HEADER RIGHT
+===================================================== */
+
+.customer-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.customer-header-right > .customer-profile {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border: none;
+  background: transparent;
+
+  padding: 5px 7px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.customer-header-right > .customer-profile:hover {
+  background: #f3f4f6;
+}
+
+.customer-profile-icon {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #1f2937 0%,
+      #111827 45%,
+      #05070b 100%
+    );
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.18);
+
+  flex-shrink: 0;
+}
+
+.customer-header-right > .customer-profile span {
+  font-size: 12px;
+
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =====================================================
    PROFILE
-================================= */
+===================================================== */
 
 .customer-profile {
   border: none;
+
   background: transparent;
 
   display: flex;
   align-items: center;
+
   gap: 9px;
 
   cursor: pointer;
@@ -246,6 +407,7 @@
 .customer-profile:hover {
   background: #f3f4f6;
 }
+
 .profile-avatar {
   width: 40px;
   height: 40px;
@@ -258,7 +420,6 @@
 
   position: relative;
 
-  /* Rich premium gradient */
   background:
     linear-gradient(
       145deg,
@@ -277,16 +438,8 @@
   border: 1px solid rgba(255, 255, 255, 0.16);
 
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.18),
-    inset 0 1px 1px rgba(255, 255, 255, 0.18);
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    0 4px 12px rgba(0, 0, 0, 0.18);
 }
-
-
-/* Elegant inner ring */
 
 .profile-avatar::before {
   content: "";
@@ -297,14 +450,10 @@
 
   border-radius: 50%;
 
-  border: 1px solid
-    rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
 
   pointer-events: none;
 }
-
-
-/* Small premium highlight */
 
 .profile-avatar::after {
   content: "";
@@ -326,43 +475,47 @@
   pointer-events: none;
 }
 
-
-/* Hover */
-
 .customer-profile:hover .profile-avatar {
   transform: translateY(-1px);
 
   box-shadow:
     0 7px 18px rgba(0, 0, 0, 0.22),
-    0 0 0 3px rgba(17, 24, 39, 0.06),
-    inset 0 1px 1px rgba(255, 255, 255, 0.20);
+    0 0 0 3px rgba(17, 24, 39, 0.06);
 }
+
 .profile-details {
   display: flex;
   flex-direction: column;
+
   text-align: left;
+
+  gap: 2px;
 }
 
 .profile-details strong {
   font-size: 12px;
+
   color: #111827;
 }
 
 .profile-details span {
   font-size: 10px;
+
   color: #6b7280;
+
   margin-top: 2px;
 }
 
 .profile-arrow {
   color: #6b7280;
+
   font-size: 14px;
 }
 
 
-/* =================================
+/* =====================================================
    PROFILE MENU
-================================= */
+===================================================== */
 
 .profile-menu {
   position: absolute;
@@ -374,7 +527,7 @@
 
   padding: 7px;
 
-  background: white;
+  background: #ffffff;
 
   border: 1px solid #e5e7eb;
 
@@ -391,10 +544,19 @@
   transition: all 0.2s ease;
 }
 
+.profile-dropdown:hover .profile-menu {
+  opacity: 1;
+
+  visibility: visible;
+
+  transform: translateY(0);
+}
+
 .profile-menu button {
   width: 100%;
 
   border: none;
+
   background: transparent;
 
   padding: 11px 12px;
@@ -417,7 +579,9 @@
 
 .profile-menu-divider {
   height: 1px;
+
   background: #e5e7eb;
+
   margin: 6px 0;
 }
 
@@ -426,14 +590,14 @@
 }
 
 
-/* =================================
+/* =====================================================
    LOGOUT
-================================= */
+===================================================== */
 
 .logout-btn {
   border: 1px solid #e5e7eb;
 
-  background: white;
+  background: #ffffff;
 
   padding: 9px 14px;
 
@@ -451,216 +615,10 @@
 
 .logout-btn:hover {
   background: #111827;
-  border-color: #111827;
-  color: white;
-}
-
-
-/* =================================
-   MOBILE
-================================= */
-
-@media (max-width: 1050px) {
-
-  .customer-nav {
-    display: none;
-  }
-
-  .brand-content {
-    display: none;
-  }
-
-  .profile-details,
-  .profile-arrow {
-    display: none;
-  }
-
-  .navbar-container {
-    width: 92%;
-  }
-
-}
-
-
-/* =====================================================
-   NAVBAR
-===================================================== */
-
-.customer-navbar {
-  height: 72px;
-
-  background: rgba(255, 255, 255, 0.97);
-
-  border-bottom: 1px solid #e8ecf2;
-
-  position: sticky;
-  top: 0;
-
-  z-index: 100;
-
-  backdrop-filter: blur(12px);
-}
-
-.navbar-container {
-  width: 100%;
-  max-width: 1240px;
-
-  height: 100%;
-
-  margin: auto;
-
-  padding: 0 24px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-}
-
-
-/* BRAND */
-
-.bank-brand {
-  display: flex;
-  align-items: center;
-
-  gap: 11px;
-}
-
-.bank-logo {
-  width: 10px;
-  height: 41px;
-
-  border-radius: 11px;
-
-  background: #111827;
-
-  color: rgb(134, 120, 120);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 18px;
-  font-weight: 800;
-
-  box-shadow:
-    0 6px 15px
-    rgba(32, 86, 201, 0.15);
-}
-
-.brand-content h2 {
-  margin: 0;
-
-  font-size: 16px;
-
-  font-weight: 750;
-
-  letter-spacing: -0.3px;
-}
-
-.brand-content span {
-  display: block;
-
-  margin-top: 2px;
-
-  color: #9ca3af;
-
-  font-size: 8px;
-
-  font-weight: 600;
-
-  letter-spacing: 1px;
-
-  text-transform: uppercase;
-}
-
-
-/* NAV RIGHT */
-
-.navbar-actions {
-  display: flex;
-  align-items: center;
-
-  gap: 13px;
-}
-
-.nav-divider {
-  width: 1px;
-  height: 29px;
-
-  background: #124bbe;
-}
-
-.customer-profile {
-  display: flex;
-  align-items: center;
-
-  gap: 8px;
-}
-
-.profile-avatar {
-  width: 36px;
-  height: 36px;
-
-  border-radius: 50%;
-
-  background: #eef2ff;
-
-  color: #d6d5e0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 12px;
-  font-weight: 750;
-}
-
-.profile-details {
-  display: flex;
-  flex-direction: column;
-
-  gap: 2px;
-}
-
-.profile-details strong {
-  font-size: 11px;
-}
-
-.profile-details span {
-  color: #9ca3af;
-
-  font-size: 9px;
-}
-
-.logout-btn {
-  padding: 8px 13px;
-
-  border: 1px solid #e2e6ec;
-
-  border-radius: 8px;
-
-  background: white;
-
-  color: #374151;
-
-  font-size: 10px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.logout-btn:hover {
-  background: #111827;
 
   border-color: #111827;
 
-  color: white;
+  color: #ffffff;
 }
 
 
@@ -778,7 +736,7 @@
 
   overflow: hidden;
 
-  color: white;
+  color: #ffffff;
 
   background:
     linear-gradient(
@@ -789,8 +747,7 @@
     );
 
   box-shadow:
-    0 20px 45px
-    rgba(15, 23, 42, 0.16);
+    0 20px 45px rgba(15, 23, 42, 0.16);
 }
 
 .account-card-background {
@@ -809,7 +766,9 @@
 }
 
 
-/* HEADER */
+/* =====================================================
+   ACCOUNT HEADER
+===================================================== */
 
 .account-card-header {
   position: relative;
@@ -821,6 +780,8 @@
   justify-content: space-between;
 
   align-items: flex-start;
+
+  gap: 20px;
 }
 
 .balance-label {
@@ -842,7 +803,7 @@
 
   gap: 6px;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 42px;
 
@@ -875,8 +836,7 @@
     rgba(255, 255, 255, 0.1);
 
   border:
-    1px solid
-    rgba(255, 255, 255, 0.1);
+    1px solid rgba(255, 255, 255, 0.1);
 
   display: flex;
 
@@ -906,8 +866,7 @@
   padding-top: 18px;
 
   border-top:
-    1px solid
-    rgba(255, 255, 255, 0.13);
+    1px solid rgba(255, 255, 255, 0.13);
 
   display: grid;
 
@@ -925,6 +884,8 @@
   flex-direction: column;
 
   gap: 5px;
+
+  min-width: 0;
 }
 
 .account-info span {
@@ -941,23 +902,24 @@
   color: #f8fafc;
 
   font-size: 12px;
+
+  word-break: break-word;
 }
 
-.refresh-btn {
+.account-card .refresh-btn {
   min-width: 90px;
 
   padding: 8px 12px;
 
   border:
-    1px solid
-    rgba(255, 255, 255, 0.16);
+    1px solid rgba(255, 255, 255, 0.16);
 
   border-radius: 8px;
 
   background:
     rgba(255, 255, 255, 0.09);
 
-  color: white;
+  color: #ffffff;
 
   font-size: 10px;
 
@@ -968,13 +930,13 @@
   transition: 0.2s;
 }
 
-.refresh-btn:hover {
-  background: white;
+.account-card .refresh-btn:hover {
+  background: #ffffff;
 
   color: #111827;
 }
 
-.refresh-btn:disabled {
+.account-card .refresh-btn:disabled {
   opacity: 0.55;
 
   cursor: not-allowed;
@@ -1057,7 +1019,9 @@
 }
 
 
-/* GRID */
+/* =====================================================
+   SERVICES GRID
+===================================================== */
 
 .services-grid {
   display: grid;
@@ -1069,7 +1033,9 @@
 }
 
 
-/* CARD */
+/* =====================================================
+   SERVICE CARD
+===================================================== */
 
 .service-card {
   min-height: 155px;
@@ -1081,7 +1047,7 @@
 
   border-radius: 16px;
 
-  background: white;
+  background: #ffffff;
 
   text-align: left;
 
@@ -1101,8 +1067,7 @@
   border-color: #d3daf0;
 
   box-shadow:
-    0 12px 28px
-    rgba(15, 23, 42, 0.08);
+    0 12px 28px rgba(15, 23, 42, 0.08);
 }
 
 .service-top {
@@ -1156,7 +1121,7 @@
 .service-card:hover .service-arrow {
   background: #111827;
 
-  color: white;
+  color: #ffffff;
 }
 
 .service-card h3 {
@@ -1180,7 +1145,9 @@
 }
 
 
-/* COLORS */
+/* =====================================================
+   SERVICE COLORS
+===================================================== */
 
 .service-icon.deposit {
   background: #ecfdf5;
@@ -1229,7 +1196,7 @@
 
   border-radius: 13px;
 
-  background: white;
+  background: #ffffff;
 
   display: flex;
 
@@ -1253,10 +1220,14 @@
   justify-content: center;
 
   font-size: 16px;
+
+  flex-shrink: 0;
 }
 
 .security-text {
   flex: 1;
+
+  min-width: 0;
 }
 
 .security-text strong {
@@ -1273,6 +1244,8 @@
   color: #9ca3af;
 
   font-size: 9px;
+
+  line-height: 1.4;
 }
 
 .secure-badge {
@@ -1289,6 +1262,8 @@
   font-weight: 800;
 
   letter-spacing: 0.7px;
+
+  flex-shrink: 0;
 }
 
 
@@ -1296,11 +1271,14 @@
    TABLET
 ===================================================== */
 
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
 
-  .customer-main {
-    padding-left: 18px;
-    padding-right: 18px;
+  .customer-nav {
+    display: none;
+  }
+
+  .navbar-container {
+    width: 92%;
   }
 
   .services-grid {
@@ -1308,11 +1286,10 @@
       repeat(2, minmax(0, 1fr));
   }
 
-  .account-card-footer {
-    grid-template-columns:
-      1.3fr 1fr 0.8fr auto;
+  .customer-main {
+    padding-left: 18px;
+    padding-right: 18px;
   }
-
 }
 
 
@@ -1327,14 +1304,45 @@
   }
 
   .navbar-container {
+    width: 100%;
+
     padding: 0 14px;
   }
 
-  .brand-content {
+  .customer-header-left h1 {
+    font-size: 15px;
+  }
+
+  .customer-header-left p {
+    font-size: 9px;
+  }
+
+  .customer-logo {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 10px;
+
+    font-size: 18px;
+  }
+
+  .customer-header-right > .customer-profile {
+    padding: 3px;
+  }
+
+  .customer-header-right > .customer-profile span {
     display: none;
   }
 
-  .profile-details {
+  .customer-profile-icon {
+    width: 35px;
+    height: 35px;
+
+    font-size: 15px;
+  }
+
+  .profile-details,
+  .profile-arrow {
     display: none;
   }
 
@@ -1343,11 +1351,13 @@
   }
 
   .navbar-actions {
-    gap: 8px;
+    gap: 7px;
   }
 
   .logout-btn {
     padding: 7px 10px;
+
+    font-size: 10px;
   }
 
   .customer-main {
@@ -1404,7 +1414,7 @@
     gap: 14px;
   }
 
-  .refresh-btn {
+  .account-card .refresh-btn {
     width: 100%;
 
     grid-column: 1 / -1;
@@ -1419,13 +1429,23 @@
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
 
     gap: 10px;
   }
 
   .service-card {
     min-height: 135px;
+
+    padding: 15px;
+  }
+
+  .service-card h3 {
+    font-size: 12px;
+  }
+
+  .service-card p {
+    font-size: 9px;
   }
 
   .security-banner {
@@ -1435,27 +1455,138 @@
   .secure-badge {
     display: none;
   }
-
 }
 
 
 /* =====================================================
-   VERY SMALL SCREEN
+   SMALL MOBILE
 ===================================================== */
 
 @media (max-width: 400px) {
 
-  .profile-avatar {
+  .customer-navbar {
+    height: 60px;
+  }
+
+  .navbar-container {
+    padding: 0 10px;
+  }
+
+  .customer-logo {
+    width: 33px;
+    height: 33px;
+
+    font-size: 16px;
+  }
+
+  .customer-header-left h1 {
+    font-size: 13px;
+  }
+
+  .customer-header-left p {
+    font-size: 8px;
+  }
+
+  .customer-profile-icon {
     width: 32px;
     height: 32px;
+
+    font-size: 14px;
+  }
+
+  .customer-main {
+    padding: 20px 10px 35px;
+  }
+
+  .account-card {
+    min-height: 365px;
+
+    padding: 18px;
   }
 
   .balance-amount {
     font-size: 27px;
   }
 
-  .account-card {
-    min-height: 365px;
+  .balance-amount span {
+    font-size: 18px;
   }
 
+  .account-card-footer {
+    left: 18px;
+    right: 18px;
+
+    gap: 11px;
+  }
+
+  .services-grid {
+    gap: 8px;
+  }
+
+  .service-card {
+    min-height: 130px;
+
+    padding: 12px;
+  }
+
+  .service-icon {
+    width: 36px;
+    height: 36px;
+
+    font-size: 16px;
+  }
+
+  .service-card h3 {
+    font-size: 11px;
+  }
+
+  .service-card p {
+    font-size: 8px;
+  }
+
+  .security-text strong {
+    font-size: 10px;
+  }
+
+  .security-text p {
+    font-size: 8px;
+  }
+}
+
+
+/* =====================================================
+   EXTRA SMALL MOBILE
+===================================================== */
+
+@media (max-width: 340px) {
+
+  .customer-header-left h1 {
+    font-size: 12px;
+  }
+
+  .customer-header-left p {
+    display: none;
+  }
+
+  .customer-logo {
+    width: 31px;
+    height: 31px;
+  }
+
+  .customer-main {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .account-card {
+    padding: 15px;
+  }
+
+  .balance-amount {
+    font-size: 24px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
 }
